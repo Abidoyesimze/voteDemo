@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+frontend/.next/
+frontend/.turbo/
+frontend/dist/
+frontend/out/
+frontend/.env*
+smartcontract/cache/
+smartcontract/artifacts/
+smartcontract/typechain-types/
+smartcontract/.env*
+*.log
+*.tsbuildinfo
+
