@@ -9,6 +9,7 @@ smartcontract/cache/
 smartcontract/artifacts/
 smartcontract/typechain-types/
 smartcontract/.env*
+!smartcontract/.env.example
 *.log
 *.tsbuildinfo
 
