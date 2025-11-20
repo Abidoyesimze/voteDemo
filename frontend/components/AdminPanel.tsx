@@ -131,13 +131,17 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white text-xl">⚙️</span>
+            <span className="text-white text-xl">📝</span>
           </div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Admin Panel</h2>
+          <div>
+            <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Register & Manage</h2>
+            <p className="text-xs text-gray-500">Register contenders and control voting</p>
+          </div>
         </div>
         <button
           onClick={() => setShowPanel(!showPanel)}
           className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+          aria-label={showPanel ? 'Collapse panel' : 'Expand panel'}
         >
           {showPanel ? '▼' : '▶'}
         </button>

@@ -201,6 +201,34 @@ export default function VotePage() {
           </div>
         )}
 
+        {/* Owner Notice */}
+        {isConnected && isOwnerValue && (
+          <div className="mb-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-4 text-white shadow-lg">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-xl">👑</span>
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-lg">You are the Election Owner</h3>
+                <p className="text-sm text-white/90">Only you can register contenders and manage voting sessions. Use the Admin Panel on the left to get started.</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Non-Owner Notice */}
+        {isConnected && !isOwnerValue && contenders.length === 0 && (
+          <div className="mb-6 bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">ℹ️</span>
+              <div>
+                <h3 className="font-bold text-gray-800 mb-1">Registration is Owner-Only</h3>
+                <p className="text-sm text-gray-600">Only the contract owner can register contenders. If you want to create a voting session, you'll need to deploy your own contract. For now, you can participate in voting once the owner starts a session.</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Setup Guide for Owners */}
         {isConnected && isOwnerValue && contenders.length === 0 && !votingActive && (
           <div className="mb-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200">
@@ -214,7 +242,7 @@ export default function VotePage() {
                 <ol className="space-y-3 text-gray-700">
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
-                    <span><strong>Register Contenders:</strong> Use the Admin Panel below to register up to 3 contenders with unique codes</span>
+                    <span><strong>Register Contenders:</strong> Scroll down to the <a href="#admin-panel" className="text-blue-600 underline font-semibold">Admin Panel</a> on the left to register up to 3 contenders with unique codes</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
@@ -234,8 +262,26 @@ export default function VotePage() {
           {/* Left Column - Admin Panel */}
           <div className="lg:col-span-1">
             {isConnected && isOwnerValue && (
-              <div className="mb-6">
+              <div className="mb-6" id="admin-panel">
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="text-2xl">⚙️</span>
+                  <h2 className="text-xl font-bold text-gray-800">Admin Panel</h2>
+                  <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded">Owner Only</span>
+                </div>
                 <AdminPanel isOwner={isOwnerValue} />
+              </div>
+            )}
+
+            {isConnected && !isOwnerValue && (
+              <div className="mb-6 bg-gray-50 border-2 border-gray-200 rounded-xl p-6">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-3xl">🔒</span>
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-2">Admin Panel</h3>
+                  <p className="text-sm text-gray-600 mb-3">Only the contract owner can access admin functions to register contenders and manage voting sessions.</p>
+                  <p className="text-xs text-gray-500">You can participate in voting once a session is active.</p>
+                </div>
               </div>
             )}
 
