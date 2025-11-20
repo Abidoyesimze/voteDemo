@@ -1,7 +1,8 @@
 import { BrowserProvider, Contract } from 'ethers';
-import VotingContractABI from './contractABI.json';
+import { VotingContract } from '@/app/abi';
 
-export const CONTRACT_ADDRESS = '0x0c8cF958759f547a9Cc53Edceb428a8244aF4586';
+export const CONTRACT_ADDRESS = VotingContract.address;
+const VotingContractABI = VotingContract.abi;
 
 export interface ContDetails {
   contender: string;
