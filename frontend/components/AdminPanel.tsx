@@ -334,6 +334,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     min="1"
+                    style={{ color: '#111827', backgroundColor: '#ffffff' }}
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                   />
                   <label htmlFor="duration-unit" className="sr-only">Duration Unit</label>
@@ -341,7 +342,8 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                     id="duration-unit"
                     value={durationUnit}
                     onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                    style={{ color: '#111827', backgroundColor: '#ffffff' }}
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
                     aria-label="Duration unit"
                   >
                     <option value="hours">Hours</option>
