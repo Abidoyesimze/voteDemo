@@ -95,24 +95,29 @@ export default function VotePage() {
     };
   }, [isConnected, getAllContendersWithDetails, getTotalVotes, votingActive]);
 
-  // Load winner if voting is not active
+  // Load winner if voting is not active and contenders exist
   useEffect(() => {
-    if (votingActive) return;
+    if (votingActive || contenders.length === 0) return;
 
     const loadWinner = async () => {
       if (!isConnected) return;
-      const winnerData = await getWinner();
-      if (winnerData) {
-        setWinner({
-          address: winnerData.winner,
-          code: winnerData.code,
-          voteCount: Number(winnerData.voteCount),
-        });
+      try {
+        const winnerData = await getWinner();
+        if (winnerData) {
+          setWinner({
+            address: winnerData.winner,
+            code: winnerData.code,
+            voteCount: Number(winnerData.voteCount),
+          });
+        }
+      } catch (err: any) {
+        // Silently handle error if no contenders or voting still active
+        console.log('Could not load winner:', err.message);
       }
     };
 
     loadWinner();
-  }, [votingActive, isConnected, getWinner]);
+  }, [votingActive, isConnected, getWinner, contenders.length]);
 
   const handleVote = async (code: string) => {
     if (!isConnected || hasVoted) return;
@@ -166,8 +171,8 @@ export default function VotePage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Error Display */}
-        {error && (
+        {/* Error Display - Only show non-contract errors */}
+        {error && !error.includes('No contenders registered') && !error.includes('Voting is still active') && (
           <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl text-red-800">
             <p className="font-semibold">Error: {error}</p>
           </div>
@@ -193,6 +198,35 @@ export default function VotePage() {
         {winner && (
           <div className="mb-8">
             <WinnerDisplay winner={winner} />
+          </div>
+        )}
+
+        {/* Setup Guide for Owners */}
+        {isConnected && isOwnerValue && contenders.length === 0 && !votingActive && (
+          <div className="mb-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-white text-2xl">📋</span>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">Create Your Voting Session</h3>
+                <p className="text-gray-600 mb-4">Follow these steps to set up and start your voting:</p>
+                <ol className="space-y-3 text-gray-700">
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                    <span><strong>Register Contenders:</strong> Use the Admin Panel below to register up to 3 contenders with unique codes</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                    <span><strong>Start Voting:</strong> Once contenders are registered, set a duration and start the voting session</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                    <span><strong>Vote:</strong> Users can now cast their votes for their preferred contender</span>
+                  </li>
+                </ol>
+              </div>
+            </div>
           </div>
         )}
 
@@ -227,23 +261,46 @@ export default function VotePage() {
 
           {/* Right Column - Contenders */}
           <div className="lg:col-span-2">
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Contenders</h2>
-              <p className="text-gray-600">
-                {votingActive
-                  ? hasVoted
-                    ? "You've already voted. Thanks for participating!"
-                    : 'Select a contender to vote'
-                  : 'Voting is not active yet'}
-              </p>
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">Contenders</h2>
+                <p className="text-gray-600">
+                  {votingActive
+                    ? hasVoted
+                      ? "✅ You've already voted. Thanks for participating!"
+                      : '👆 Select a contender below to cast your vote'
+                    : contenders.length > 0
+                      ? '⏳ Voting will begin once the owner starts the session'
+                      : '📝 No contenders registered yet'}
+                </p>
+              </div>
+              {votingActive && contenders.length > 0 && (
+                <div className="bg-green-50 border-2 border-green-200 rounded-lg px-4 py-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    <span className="text-green-700 font-semibold text-sm">Voting Active</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {contenders.length === 0 ? (
-              <div className="text-center py-12 bg-white rounded-xl border-2 border-gray-200">
-                <p className="text-gray-600 text-lg">
-                  No contenders registered yet.
-                  {isOwnerValue && ' Use the admin panel to register contenders.'}
+              <div className="text-center py-16 bg-white rounded-xl border-2 border-dashed border-gray-300">
+                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-4xl">📊</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">No Contenders Yet</h3>
+                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                  {isOwnerValue 
+                    ? 'Get started by registering contenders using the Admin Panel on the left. You can register up to 3 contenders.'
+                    : 'Waiting for the election owner to register contenders. Check back soon!'}
                 </p>
+                {isOwnerValue && (
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg">
+                    <span>👈</span>
+                    <span className="font-medium">Use the Admin Panel to get started</span>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

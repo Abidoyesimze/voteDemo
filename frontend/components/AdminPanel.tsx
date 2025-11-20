@@ -17,7 +17,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
     endVoting,
   } = useVotingContract();
 
-  const [showPanel, setShowPanel] = useState(false);
+  const [showPanel, setShowPanel] = useState(true);
   const [batchMode, setBatchMode] = useState(true);
   
   // Batch registration
@@ -30,6 +30,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
   
   // Start voting
   const [duration, setDuration] = useState('');
+  const [durationUnit, setDurationUnit] = useState<'seconds' | 'minutes' | 'hours'>('hours');
 
   if (!isOwner) return null;
 
@@ -81,15 +82,23 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
   const handleStartVoting = async () => {
     const durationNum = parseInt(duration, 10);
     if (!durationNum || durationNum <= 0) {
-      alert('Please enter a valid duration in seconds');
+      alert('Please enter a valid duration');
       return;
     }
 
+    // Convert to seconds based on unit
+    let durationInSeconds = durationNum;
+    if (durationUnit === 'minutes') {
+      durationInSeconds = durationNum * 60;
+    } else if (durationUnit === 'hours') {
+      durationInSeconds = durationNum * 3600;
+    }
+
     try {
-      const tx = await startVoting(durationNum);
+      const tx = await startVoting(durationInSeconds);
       
       if (tx) {
-        alert('Voting started!');
+        alert('Voting started successfully!');
         setDuration('');
         // Reload page to update voting status
         window.location.reload();
@@ -242,22 +251,39 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
 
           {/* Start Voting */}
           <div className="pt-4 border-t border-gray-200">
-            <h3 className="font-semibold text-gray-700 mb-3">Start Voting</h3>
-            <div className="flex gap-3">
-              <input
-                type="number"
-                placeholder="Duration (seconds)"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              />
+            <h3 className="font-semibold text-gray-700 mb-3">Start Voting Session</h3>
+            <div className="space-y-3">
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  placeholder="Duration"
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  min="1"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+                <select
+                  value={durationUnit}
+                  onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                >
+                  <option value="hours">Hours</option>
+                  <option value="minutes">Minutes</option>
+                  <option value="seconds">Seconds</option>
+                </select>
+              </div>
               <button
                 onClick={handleStartVoting}
-                disabled={loading}
-                className="px-6 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={loading || !duration}
+                className="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold hover:from-green-700 hover:to-green-800 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Processing...' : 'Start Voting'}
+                {loading ? '⏳ Processing...' : '🚀 Start Voting Session'}
               </button>
+              {duration && (
+                <p className="text-xs text-gray-500 text-center">
+                  Voting will run for {duration} {durationUnit} ({durationUnit === 'hours' ? parseInt(duration) * 3600 : durationUnit === 'minutes' ? parseInt(duration) * 60 : duration} seconds)
+                </p>
+              )}
             </div>
           </div>
 
