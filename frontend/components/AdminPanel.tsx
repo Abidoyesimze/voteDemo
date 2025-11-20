@@ -190,29 +190,43 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             <div className="space-y-4">
               <h3 className="font-semibold text-gray-700">Register 3 Contenders</h3>
               {[0, 1, 2].map((index) => (
-                <div key={index} className="grid grid-cols-2 gap-3">
-                  <input
-                    type="text"
-                    placeholder={`Contender ${index + 1} Address`}
-                    value={batchAddresses[index]}
-                    onChange={(e) => {
-                      const newAddrs = [...batchAddresses];
-                      newAddrs[index] = e.target.value;
-                      setBatchAddresses(newAddrs);
-                    }}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                  <input
-                    type="text"
-                    placeholder={`Code ${index + 1}`}
-                    value={batchCodes[index]}
-                    onChange={(e) => {
-                      const newCodes = [...batchCodes];
-                      newCodes[index] = e.target.value;
-                      setBatchCodes(newCodes);
-                    }}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
+                <div key={index} className="space-y-2">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label htmlFor={`batch-address-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
+                        Contender {index + 1} Address
+                      </label>
+                      <input
+                        id={`batch-address-${index}`}
+                        type="text"
+                        placeholder="0x..."
+                        value={batchAddresses[index]}
+                        onChange={(e) => {
+                          const newAddrs = [...batchAddresses];
+                          newAddrs[index] = e.target.value;
+                          setBatchAddresses(newAddrs);
+                        }}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor={`batch-code-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
+                        Code {index + 1}
+                      </label>
+                      <input
+                        id={`batch-code-${index}`}
+                        type="text"
+                        placeholder="e.g., CODE1"
+                        value={batchCodes[index]}
+                        onChange={(e) => {
+                          const newCodes = [...batchCodes];
+                          newCodes[index] = e.target.value;
+                          setBatchCodes(newCodes);
+                        }}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
                 </div>
               ))}
               <button
@@ -229,20 +243,32 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
           {!batchMode && (
             <div className="space-y-4">
               <h3 className="font-semibold text-gray-700">Register Single Contender</h3>
-              <input
-                type="text"
-                placeholder="Contender Address"
-                value={singleAddress}
-                onChange={(e) => setSingleAddress(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              />
-              <input
-                type="text"
-                placeholder="Code"
-                value={singleCode}
-                onChange={(e) => setSingleCode(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              />
+              <div>
+                <label htmlFor="single-address" className="block text-sm font-medium text-gray-700 mb-1">
+                  Contender Address
+                </label>
+                <input
+                  id="single-address"
+                  type="text"
+                  placeholder="0x..."
+                  value={singleAddress}
+                  onChange={(e) => setSingleAddress(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label htmlFor="single-code" className="block text-sm font-medium text-gray-700 mb-1">
+                  Code
+                </label>
+                <input
+                  id="single-code"
+                  type="text"
+                  placeholder="e.g., CODE1"
+                  value={singleCode}
+                  onChange={(e) => setSingleCode(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </div>
               <button
                 onClick={handleSingleRegistration}
                 disabled={loading}
@@ -257,24 +283,33 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
           <div className="pt-4 border-t border-gray-200">
             <h3 className="font-semibold text-gray-700 mb-3">Start Voting Session</h3>
             <div className="space-y-3">
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  placeholder="Duration"
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
-                  min="1"
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                />
-                <select
-                  value={durationUnit}
-                  onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
-                >
-                  <option value="hours">Hours</option>
-                  <option value="minutes">Minutes</option>
-                  <option value="seconds">Seconds</option>
-                </select>
+              <div>
+                <label htmlFor="voting-duration" className="block text-sm font-medium text-gray-700 mb-1">
+                  Voting Duration
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    id="voting-duration"
+                    type="number"
+                    placeholder="e.g., 24"
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                    min="1"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                  <label htmlFor="duration-unit" className="sr-only">Duration Unit</label>
+                  <select
+                    id="duration-unit"
+                    value={durationUnit}
+                    onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                    aria-label="Duration unit"
+                  >
+                    <option value="hours">Hours</option>
+                    <option value="minutes">Minutes</option>
+                    <option value="seconds">Seconds</option>
+                  </select>
+                </div>
               </div>
               <button
                 onClick={handleStartVoting}
