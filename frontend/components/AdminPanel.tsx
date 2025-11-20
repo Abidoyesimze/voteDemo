@@ -19,6 +19,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
 
   const [showPanel, setShowPanel] = useState(true);
   const [batchMode, setBatchMode] = useState(true);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   // Batch registration
   const [batchAddresses, setBatchAddresses] = useState(['', '', '']);
@@ -40,6 +41,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
       return;
     }
 
+    setSuccessMessage(null);
     try {
       const tx = await batchRegister(
         batchAddresses as [string, string, string],
@@ -47,11 +49,14 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
       );
       
       if (tx) {
-        alert('Batch registration successful!');
+        // Transaction confirmed
+        setSuccessMessage('Transaction confirmed! Batch registration successful.');
         setBatchAddresses(['', '', '']);
         setBatchCodes(['', '', '']);
-        // Reload page to update contender list
-        window.location.reload();
+        // Reload page after a short delay to update contender list
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
     } catch (err: any) {
       alert(`Error: ${err.message || 'Failed to register contenders'}`);
@@ -64,15 +69,19 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
       return;
     }
 
+    setSuccessMessage(null);
     try {
       const tx = await registerContender(singleAddress, singleCode);
       
       if (tx) {
-        alert('Registration successful!');
+        // Transaction confirmed
+        setSuccessMessage('Transaction confirmed! Registration successful.');
         setSingleAddress('');
         setSingleCode('');
-        // Reload page to update contender list
-        window.location.reload();
+        // Reload page after a short delay to update contender list
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
     } catch (err: any) {
       alert(`Error: ${err.message || 'Failed to register contender'}`);
@@ -94,14 +103,18 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
       durationInSeconds = durationNum * 3600;
     }
 
+    setSuccessMessage(null);
     try {
       const tx = await startVoting(durationInSeconds);
       
       if (tx) {
-        alert('Voting started successfully!');
+        // Transaction confirmed
+        setSuccessMessage('Transaction confirmed! Voting session started successfully.');
         setDuration('');
-        // Reload page to update voting status
-        window.location.reload();
+        // Reload page after a short delay to update voting status
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
     } catch (err: any) {
       alert(`Error: ${err.message || 'Failed to start voting'}`);
@@ -113,13 +126,17 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
       return;
     }
 
+    setSuccessMessage(null);
     try {
       const tx = await endVoting();
       
       if (tx) {
-        alert('Voting ended!');
-        // Reload page to update voting status
-        window.location.reload();
+        // Transaction confirmed
+        setSuccessMessage('Transaction confirmed! Voting session ended.');
+        // Reload page after a short delay to update voting status
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
     } catch (err: any) {
       alert(`Error: ${err.message || 'Failed to end voting'}`);
@@ -153,9 +170,19 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
         </div>
       )}
 
+      {successMessage && (
+        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-800 text-sm flex items-center gap-2">
+          <span className="text-green-600">✓</span>
+          <span>{successMessage}</span>
+        </div>
+      )}
+
       {loading && (
         <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-800 text-sm text-center">
-          Processing transaction...
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <span>Waiting for transaction confirmation...</span>
+          </div>
         </div>
       )}
 
@@ -211,7 +238,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                           newAddrs[index] = e.target.value;
                           setBatchAddresses(newAddrs);
                         }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                       />
                     </div>
                     <div>
@@ -228,7 +255,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                           newCodes[index] = e.target.value;
                           setBatchCodes(newCodes);
                         }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                       />
                       <p className="text-xs text-gray-500 mt-1">Voters will use this code to vote</p>
                     </div>
@@ -264,7 +291,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                   placeholder="0x..."
                   value={singleAddress}
                   onChange={(e) => setSingleAddress(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
               </div>
               <div>
@@ -277,7 +304,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                   placeholder="e.g., ALICE, BOB, or CODE1"
                   value={singleCode}
                   onChange={(e) => setSingleCode(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
                 <p className="text-xs text-gray-500 mt-1">Voters will use this code to vote for this contender</p>
               </div>
@@ -307,14 +334,16 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     min="1"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    style={{ color: '#111827', backgroundColor: '#ffffff' }}
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                   />
                   <label htmlFor="duration-unit" className="sr-only">Duration Unit</label>
                   <select
                     id="duration-unit"
                     value={durationUnit}
                     onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                    style={{ color: '#111827', backgroundColor: '#ffffff' }}
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
                     aria-label="Duration unit"
                   >
                     <option value="hours">Hours</option>

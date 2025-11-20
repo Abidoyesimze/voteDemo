@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { EventLog } from 'ethers';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { getVotingContract, getVotingContractWithSigner, type ContDetails, CONTRACT_ADDRESS } from '@/lib/contract';
 
@@ -135,39 +134,23 @@ export function useVotingContract() {
 
     try {
       const contract = getVotingContract(provider);
-      const contenderAddresses = await contract.getAllContenders();
-      
+      const contenderAddresses: string[] = await contract.getAllContenders();
+
       if (!contenderAddresses || contenderAddresses.length === 0) return [];
 
-      const details: ContDetails[] = [];
-      
-      // Query past ContRegistered events to get codes
-      const filter = contract.filters.ContRegistered();
-      const events = await contract.queryFilter(filter);
-      
-      // Create a map of address to code from events
-      const addressToCode = new Map<string, string>();
-      events.forEach((event) => {
-        if (event instanceof EventLog && event.args) {
-          addressToCode.set(String(event.args[0]).toLowerCase(), String(event.args[1]));
-        }
-      });
-
-      // Get details for each contender
-      for (const addr of contenderAddresses) {
-        const code = addressToCode.get(addr.toLowerCase());
-        if (code) {
-          const detail = await contract.getContender(code);
-          details.push({
+      const details = await Promise.all(
+        contenderAddresses.map(async (addr) => {
+          const detail = await contract.contenderdet(addr);
+          return {
             contender: detail.contender,
             code: detail.code,
             votersNo: Number(detail.votersNo),
             registered: detail.registered,
-          });
-        }
-      }
+          } as ContDetails;
+        }),
+      );
 
-      return details;
+      return details.filter((detail) => detail.registered);
     } catch (err: any) {
       console.error('Get all contenders error:', err);
       setError(err.message || 'Failed to get contenders');

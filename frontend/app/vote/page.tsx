@@ -95,29 +95,38 @@ export default function VotePage() {
     };
   }, [isConnected, getAllContendersWithDetails, getTotalVotes, votingActive]);
 
-  // Load winner if voting is not active and contenders exist
+  // Load winner if voting is not active, contenders exist, and votes have been cast
   useEffect(() => {
-    if (votingActive || contenders.length === 0) return;
+    if (votingActive || contenders.length === 0 || totalVotes === 0) {
+      // Clear winner if voting is active, no contenders, or no votes
+      if (votingActive || totalVotes === 0) {
+        setWinner(undefined);
+      }
+      return;
+    }
 
     const loadWinner = async () => {
       if (!isConnected) return;
       try {
         const winnerData = await getWinner();
-        if (winnerData) {
+        if (winnerData && Number(winnerData.voteCount) > 0) {
           setWinner({
             address: winnerData.winner,
             code: winnerData.code,
             voteCount: Number(winnerData.voteCount),
           });
+        } else {
+          setWinner(undefined);
         }
       } catch (err: any) {
         // Silently handle error if no contenders or voting still active
         console.log('Could not load winner:', err.message);
+        setWinner(undefined);
       }
     };
 
     loadWinner();
-  }, [votingActive, isConnected, getWinner, contenders.length]);
+  }, [votingActive, isConnected, getWinner, contenders.length, totalVotes]);
 
   const handleVote = async (code: string) => {
     if (!isConnected || hasVoted) return;
