@@ -211,7 +211,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                           newAddrs[index] = e.target.value;
                           setBatchAddresses(newAddrs);
                         }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                       />
                     </div>
                     <div>
@@ -228,7 +228,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                           newCodes[index] = e.target.value;
                           setBatchCodes(newCodes);
                         }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                       />
                       <p className="text-xs text-gray-500 mt-1">Voters will use this code to vote</p>
                     </div>
@@ -264,7 +264,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                   placeholder="0x..."
                   value={singleAddress}
                   onChange={(e) => setSingleAddress(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
               </div>
               <div>
@@ -277,7 +277,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                   placeholder="e.g., ALICE, BOB, or CODE1"
                   value={singleCode}
                   onChange={(e) => setSingleCode(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
                 <p className="text-xs text-gray-500 mt-1">Voters will use this code to vote for this contender</p>
               </div>
@@ -307,7 +307,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     min="1"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                   />
                   <label htmlFor="duration-unit" className="sr-only">Duration Unit</label>
                   <select
