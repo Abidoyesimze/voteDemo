@@ -188,7 +188,12 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
           {/* Batch Registration Form */}
           {batchMode && (
             <div className="space-y-4">
-              <h3 className="font-semibold text-gray-700">Register 3 Contenders</h3>
+              <div>
+                <h3 className="font-semibold text-gray-700">Register 3 Contenders</h3>
+                <p className="text-xs text-gray-500 mt-1">
+                  The <strong>Code</strong> is a unique identifier (like "ALICE" or "CODE1") that voters will use to vote for this contender. It must be unique and cannot be changed later.
+                </p>
+              </div>
               {[0, 1, 2].map((index) => (
                 <div key={index} className="space-y-2">
                   <div className="grid grid-cols-2 gap-3">
@@ -211,12 +216,12 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                     </div>
                     <div>
                       <label htmlFor={`batch-code-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                        Code {index + 1}
+                        Code {index + 1} <span className="text-gray-500 font-normal">(unique identifier)</span>
                       </label>
                       <input
                         id={`batch-code-${index}`}
                         type="text"
-                        placeholder="e.g., CODE1"
+                        placeholder="e.g., ALICE, BOB, or CODE1"
                         value={batchCodes[index]}
                         onChange={(e) => {
                           const newCodes = [...batchCodes];
@@ -225,6 +230,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                         }}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       />
+                      <p className="text-xs text-gray-500 mt-1">Voters will use this code to vote</p>
                     </div>
                   </div>
                 </div>
@@ -242,7 +248,12 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
           {/* Single Registration Form */}
           {!batchMode && (
             <div className="space-y-4">
-              <h3 className="font-semibold text-gray-700">Register Single Contender</h3>
+              <div>
+                <h3 className="font-semibold text-gray-700">Register Single Contender</h3>
+                <p className="text-xs text-gray-500 mt-1">
+                  The <strong>Code</strong> is a unique identifier (like "ALICE" or "CODE1") that voters will use to vote for this contender. It must be unique and cannot be changed later.
+                </p>
+              </div>
               <div>
                 <label htmlFor="single-address" className="block text-sm font-medium text-gray-700 mb-1">
                   Contender Address
@@ -258,16 +269,17 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
               </div>
               <div>
                 <label htmlFor="single-code" className="block text-sm font-medium text-gray-700 mb-1">
-                  Code
+                  Code <span className="text-gray-500 font-normal">(unique identifier)</span>
                 </label>
                 <input
                   id="single-code"
                   type="text"
-                  placeholder="e.g., CODE1"
+                  placeholder="e.g., ALICE, BOB, or CODE1"
                   value={singleCode}
                   onChange={(e) => setSingleCode(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
+                <p className="text-xs text-gray-500 mt-1">Voters will use this code to vote for this contender</p>
               </div>
               <button
                 onClick={handleSingleRegistration}
