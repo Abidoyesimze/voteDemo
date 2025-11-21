@@ -144,241 +144,265 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-purple-50 to-white rounded-2xl shadow-xl p-6 border-2 border-purple-200 hover:shadow-2xl transition-all duration-300">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white text-xl">📝</span>
+    <div className="relative overflow-hidden rounded-3xl border border-purple-100 bg-white shadow-[0_25px_60px_rgba(79,70,229,0.12)] p-6 md:p-8">
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-blue-50 opacity-70 pointer-events-none" />
+      <div className="absolute -right-8 -top-8 w-36 h-36 bg-purple-200/40 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute -left-10 bottom-0 w-40 h-40 bg-blue-200/40 blur-3xl rounded-full pointer-events-none" />
+
+      <div className="relative">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center shadow-lg">
+              🛠️
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-purple-500">Owner Console</p>
+              <h2 className="text-2xl font-extrabold text-slate-900">Register & Manage Session</h2>
+            </div>
           </div>
-          <div>
-            <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Register & Manage</h2>
-            <p className="text-xs text-gray-500">Register contenders and control voting</p>
+          <button
+            onClick={() => setShowPanel(!showPanel)}
+            className="p-2.5 rounded-xl border border-gray-200 text-gray-500 hover:text-purple-600 hover:border-purple-200 transition-all"
+            aria-label={showPanel ? 'Collapse panel' : 'Expand panel'}
+          >
+            {showPanel ? '−' : '+'}
+          </button>
+        </div>
+
+        {error && (
+          <div className="mb-4 p-4 rounded-2xl border border-red-200 bg-red-50 text-red-700 text-sm flex items-center gap-3">
+            <span>⚠️</span>
+            <span>{error}</span>
           </div>
-        </div>
-        <button
-          onClick={() => setShowPanel(!showPanel)}
-          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-purple-600 hover:bg-purple-50 transition-colors"
-          aria-label={showPanel ? 'Collapse panel' : 'Expand panel'}
-        >
-          {showPanel ? '▼' : '▶'}
-        </button>
-      </div>
+        )}
 
-      {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
-          {error}
-        </div>
-      )}
-
-      {successMessage && (
-        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-800 text-sm flex items-center gap-2">
-          <span className="text-green-600">✓</span>
-          <span>{successMessage}</span>
-        </div>
-      )}
-
-      {loading && (
-        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-800 text-sm text-center">
-          <div className="flex items-center justify-center gap-2">
-            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            <span>Waiting for transaction confirmation...</span>
+        {successMessage && (
+          <div className="mb-4 p-4 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-700 text-sm flex items-center gap-3">
+            <span>✅</span>
+            <span>{successMessage}</span>
           </div>
-        </div>
-      )}
+        )}
 
-      {showPanel && (
-        <div className="space-y-6">
-          {/* Registration Mode Toggle */}
-          <div className="flex gap-4 mb-4">
-            <button
-              onClick={() => setBatchMode(true)}
-              className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
-                batchMode
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              Batch Registration (3 at once)
-            </button>
-            <button
-              onClick={() => setBatchMode(false)}
-              className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
-                !batchMode
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              Single Registration
-            </button>
+        {loading && (
+          <div className="mb-4 p-4 rounded-2xl border border-blue-200 bg-blue-50 text-blue-700 text-sm flex items-center gap-3 justify-center">
+            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <span>Waiting for transaction confirmation…</span>
           </div>
+        )}
 
-          {/* Batch Registration Form */}
-          {batchMode && (
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold text-gray-700">Register 3 Contenders</h3>
-                <p className="text-xs text-gray-500 mt-1">
-                  The <strong>Code</strong> is a unique identifier (like "ALICE" or "CODE1") that voters will use to vote for this contender. It must be unique and cannot be changed later.
-                </p>
+        {showPanel && (
+          <div className="space-y-8">
+            {/* Registration Mode Toggle */}
+            <div className="bg-white/80 border border-purple-100 rounded-2xl p-3 shadow-inner">
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setBatchMode(true)}
+                  className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
+                    batchMode
+                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
+                      : 'bg-gray-50 border border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-200'
+                  }`}
+                >
+                  <span>👥</span>
+                  Batch (3)
+                </button>
+                <button
+                  onClick={() => setBatchMode(false)}
+                  className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
+                    !batchMode
+                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
+                      : 'bg-gray-50 border border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-200'
+                  }`}
+                >
+                  <span>👤</span>
+                  Single
+                </button>
               </div>
-              {[0, 1, 2].map((index) => (
-                <div key={index} className="space-y-2">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor={`batch-address-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                        Contender {index + 1} Address
-                      </label>
-                      <input
-                        id={`batch-address-${index}`}
-                        type="text"
-                        placeholder="0x..."
-                        value={batchAddresses[index]}
-                        onChange={(e) => {
-                          const newAddrs = [...batchAddresses];
-                          newAddrs[index] = e.target.value;
-                          setBatchAddresses(newAddrs);
-                        }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
-                      />
+            </div>
+
+            {/* Batch Registration Form */}
+            {batchMode && (
+              <div className="space-y-5">
+                <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-5 shadow-inner">
+                  <h3 className="text-lg font-semibold text-slate-900">Register 3 Contenders</h3>
+                  <p className="text-sm text-slate-500 mt-1">
+                    Assign unique addresses and voting codes. Each code is permanent once registered.
+                  </p>
+                </div>
+                {[0, 1, 2].map((index) => (
+                  <div key={index} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-gray-600">Contender {index + 1}</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 border border-purple-100">Required</span>
                     </div>
-                    <div>
-                      <label htmlFor={`batch-code-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                        Code {index + 1} <span className="text-gray-500 font-normal">(unique identifier)</span>
-                      </label>
-                      <input
-                        id={`batch-code-${index}`}
-                        type="text"
-                        placeholder="e.g., ALICE, BOB, or CODE1"
-                        value={batchCodes[index]}
-                        onChange={(e) => {
-                          const newCodes = [...batchCodes];
-                          newCodes[index] = e.target.value;
-                          setBatchCodes(newCodes);
-                        }}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Voters will use this code to vote</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor={`batch-address-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                          Wallet Address
+                        </label>
+                        <input
+                          id={`batch-address-${index}`}
+                          type="text"
+                          placeholder="0x..."
+                          value={batchAddresses[index]}
+                          onChange={(e) => {
+                            const newAddrs = [...batchAddresses];
+                            newAddrs[index] = e.target.value;
+                            setBatchAddresses(newAddrs);
+                          }}
+                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor={`batch-code-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                          Voting Code
+                        </label>
+                        <input
+                          id={`batch-code-${index}`}
+                          type="text"
+                          placeholder="e.g., ALICE"
+                          value={batchCodes[index]}
+                          onChange={(e) => {
+                            const newCodes = [...batchCodes];
+                            newCodes[index] = e.target.value;
+                            setBatchCodes(newCodes);
+                          }}
+                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                        />
+                        <p className="text-xs text-gray-400 mt-1">Voters will enter this code</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              <button
-                onClick={handleBatchRegistration}
-                disabled={loading}
-                className="w-full py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Processing...' : 'Register All 3 Contenders'}
-              </button>
-            </div>
-          )}
+                ))}
+                <button
+                  onClick={handleBatchRegistration}
+                  disabled={loading}
+                  className="w-full py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Processing…' : 'Register All Contenders'}
+                </button>
+              </div>
+            )}
 
-          {/* Single Registration Form */}
+            {/* Single Registration Form */}
           {!batchMode && (
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold text-gray-700">Register Single Contender</h3>
-                <p className="text-xs text-gray-500 mt-1">
-                  The <strong>Code</strong> is a unique identifier (like "ALICE" or "CODE1") that voters will use to vote for this contender. It must be unique and cannot be changed later.
-                </p>
-              </div>
-              <div>
-                <label htmlFor="single-address" className="block text-sm font-medium text-gray-700 mb-1">
-                  Contender Address
-                </label>
-                <input
-                  id="single-address"
-                  type="text"
-                  placeholder="0x..."
-                  value={singleAddress}
-                  onChange={(e) => setSingleAddress(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
-                />
-              </div>
-              <div>
-                <label htmlFor="single-code" className="block text-sm font-medium text-gray-700 mb-1">
-                  Code <span className="text-gray-500 font-normal">(unique identifier)</span>
-                </label>
-                <input
-                  id="single-code"
-                  type="text"
-                  placeholder="e.g., ALICE, BOB, or CODE1"
-                  value={singleCode}
-                  onChange={(e) => setSingleCode(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
-                />
-                <p className="text-xs text-gray-500 mt-1">Voters will use this code to vote for this contender</p>
-              </div>
-              <button
-                onClick={handleSingleRegistration}
-                disabled={loading}
-                className="w-full py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Processing...' : 'Register Contender'}
-              </button>
-            </div>
-          )}
-
-          {/* Start Voting */}
-          <div className="pt-4 border-t border-gray-200">
-            <h3 className="font-semibold text-gray-700 mb-3">Start Voting Session</h3>
-            <div className="space-y-3">
-              <div>
-                <label htmlFor="voting-duration" className="block text-sm font-medium text-gray-700 mb-1">
-                  Voting Duration
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    id="voting-duration"
-                    type="number"
-                    placeholder="e.g., 24"
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                    min="1"
-                    style={{ color: '#111827', backgroundColor: '#ffffff' }}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
-                  />
-                  <label htmlFor="duration-unit" className="sr-only">Duration Unit</label>
-                  <select
-                    id="duration-unit"
-                    value={durationUnit}
-                    onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
-                    style={{ color: '#111827', backgroundColor: '#ffffff' }}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
-                    aria-label="Duration unit"
+              <div className="space-y-5">
+                <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-5 shadow-inner">
+                  <h3 className="text-lg font-semibold text-slate-900">Register Single Contender</h3>
+                  <p className="text-sm text-slate-500 mt-1">
+                    Ideal for incremental updates or replacement contenders between elections.
+                  </p>
+                </div>
+                <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+                  <div>
+                    <label htmlFor="single-address" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      Contender Address
+                    </label>
+                    <input
+                      id="single-address"
+                      type="text"
+                      placeholder="0x..."
+                      value={singleAddress}
+                      onChange={(e) => setSingleAddress(e.target.value)}
+                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="single-code" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      Voting Code
+                    </label>
+                    <input
+                      id="single-code"
+                      type="text"
+                      placeholder="e.g., CODE1"
+                      value={singleCode}
+                      onChange={(e) => setSingleCode(e.target.value)}
+                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                    />
+                  </div>
+                  <button
+                    onClick={handleSingleRegistration}
+                    disabled={loading}
+                    className="w-full py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <option value="hours">Hours</option>
-                    <option value="minutes">Minutes</option>
-                    <option value="seconds">Seconds</option>
-                  </select>
+                    {loading ? 'Processing…' : 'Register Contender'}
+                  </button>
                 </div>
               </div>
-              <button
-                onClick={handleStartVoting}
-                disabled={loading || !duration}
-                className="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold hover:from-green-700 hover:to-green-800 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? '⏳ Processing...' : '🚀 Start Voting Session'}
-              </button>
-              {duration && (
-                <p className="text-xs text-gray-500 text-center">
-                  Voting will run for {duration} {durationUnit} ({durationUnit === 'hours' ? parseInt(duration) * 3600 : durationUnit === 'minutes' ? parseInt(duration) * 60 : duration} seconds)
-                </p>
-              )}
+            )}
+
+            {/* Start Voting */}
+            <div className="pt-2 space-y-4 border-t border-gray-100">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-slate-900">Start Voting Session</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-green-50 text-green-700 border border-green-100">Required</span>
+              </div>
+              <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+                <div>
+                  <label htmlFor="voting-duration" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    Voting Duration
+                  </label>
+                  <div className="mt-2 flex flex-col sm:flex-row gap-3">
+                    <input
+                      id="voting-duration"
+                      type="number"
+                      placeholder="24"
+                      value={duration}
+                      onChange={(e) => setDuration(e.target.value)}
+                      min="1"
+                      className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                    />
+                    <select
+                      id="duration-unit"
+                      value={durationUnit}
+                      onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
+                      className="px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
+                    >
+                      <option value="hours">Hours</option>
+                      <option value="minutes">Minutes</option>
+                      <option value="seconds">Seconds</option>
+                    </select>
+                  </div>
+                </div>
+                {duration && (
+                  <p className="text-xs text-gray-500 bg-gray-50 rounded-xl px-4 py-2">
+                    Voting will run for {duration} {durationUnit} (
+                    {durationUnit === 'hours'
+                      ? parseInt(duration, 10) * 3600
+                      : durationUnit === 'minutes'
+                        ? parseInt(duration, 10) * 60
+                        : duration} seconds)
+                  </p>
+                )}
+                <button
+                  onClick={handleStartVoting}
+                  disabled={loading || !duration}
+                  className="w-full py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-green-500 to-emerald-600 shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Launching…' : 'Start Voting Session'}
+                </button>
+              </div>
+            </div>
+
+            {/* End Voting */}
+            <div className="pt-2 border-t border-gray-100">
+              <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-slate-900">End Voting</h3>
+                  <span className="text-xs text-gray-400">Manual override</span>
+                </div>
+                <button
+                  onClick={handleEndVoting}
+                  disabled={loading}
+                  className="w-full py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-rose-500 to-red-600 shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Ending…' : 'End Voting Session'}
+                </button>
+              </div>
             </div>
           </div>
-
-          {/* End Voting */}
-          <div className="pt-4 border-t border-gray-200">
-            <button
-              onClick={handleEndVoting}
-              disabled={loading}
-              className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Processing...' : 'End Voting'}
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

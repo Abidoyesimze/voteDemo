@@ -39,6 +39,7 @@ export default function VotePage() {
   const [totalVotes, setTotalVotes] = useState(0);
   const [winner, setWinner] = useState<{ address: string; code: string; voteCount: number } | undefined>();
   const [isOwnerValue, setIsOwnerValue] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // Load voting status
   useEffect(() => {
@@ -149,186 +150,156 @@ export default function VotePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Header */}
-      <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform">
-                <span className="text-white font-bold text-xl">Q</span>
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Sidebar */}
+      <aside className={`${sidebarOpen ? 'w-80' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 flex flex-col fixed h-full z-30`}>
+        {/* Sidebar Header */}
+        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+          {sidebarOpen && (
+            <Link href="/" className="flex items-center space-x-2 group">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform">
+                <span className="text-white font-bold text-lg">Q</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <h2 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   QuickVote
-                </h1>
-                <p className="text-xs text-gray-500">Voting Dashboard</p>
+                </h2>
+                <p className="text-xs text-gray-500">Dashboard</p>
               </div>
             </Link>
-            <div className="flex items-center gap-4">
+          )}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="Toggle sidebar"
+          >
+            {sidebarOpen ? (
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* Sidebar Content */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {/* Navigation */}
+          {sidebarOpen && (
+            <nav className="space-y-2">
               <Link
                 href="/"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors hidden sm:block"
+                className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                ← Back to Home
+                <span>🏠</span>
+                <span>Home</span>
               </Link>
-            <WalletButton />
+              <div className="flex items-center gap-3 px-3 py-2 text-gray-700 bg-blue-50 rounded-lg">
+                <span>📊</span>
+                <span className="font-semibold">Voting Dashboard</span>
+              </div>
+            </nav>
+          )}
+
+          {/* Voting Status */}
+          <div className={sidebarOpen ? '' : 'hidden'}>
+            <VotingStatus
+              isActive={votingActive}
+              startTime={votingStartTime}
+              endTime={votingEndTime}
+            />
+          </div>
+
+          {/* Admin Panel - Owner Only */}
+          {isConnected && isOwnerValue && sidebarOpen && (
+            <div className="pt-4 border-t border-gray-200">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="text-xl">⚙️</span>
+                <h3 className="text-lg font-bold text-gray-800">Admin Panel</h3>
+                <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs font-semibold rounded">Owner</span>
+              </div>
+              <AdminPanel isOwner={isOwnerValue} />
+            </div>
+          )}
+
+          {/* Admin Panel Locked - Non-Owner */}
+          {isConnected && !isOwnerValue && sidebarOpen && (
+            <div className="pt-4 border-t border-gray-200">
+              <div className="bg-gray-50 border-2 border-gray-200 rounded-xl p-4">
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <span className="text-2xl">🔒</span>
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-1 text-sm">Admin Panel</h3>
+                  <p className="text-xs text-gray-600">Owner only</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Voting Info */}
+          {sidebarOpen && (
+            <div className="pt-4 border-t border-gray-200">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Voting Info</h3>
+              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Total Votes</span>
+                  <span className="font-bold text-gray-900">{totalVotes}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Contenders</span>
+                  <span className="font-bold text-gray-900">{contenders.length}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Network</span>
+                  <span className="font-semibold text-blue-600 text-sm">Base Sepolia</span>
+                </div>
+                {isConnected && (
+                  <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+                    <span className="text-sm text-gray-600">Your Status</span>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded ${
+                      hasVoted ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                    }`}>
+                      {hasVoted ? 'Voted' : 'Not Voted'}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Sidebar Footer */}
+        {sidebarOpen && (
+          <div className="p-4 border-t border-gray-200">
+            <div className="flex items-center justify-between">
+              <WalletButton />
             </div>
           </div>
-        </div>
-      </header>
+        )}
+      </aside>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Error Display - Only show non-contract errors */}
-        {error && !error.includes('No contenders registered') && !error.includes('Voting is still active') && (
-          <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl text-red-800">
-            <p className="font-semibold">Error: {error}</p>
-          </div>
-        )}
-
-        {/* Loading Indicator */}
-        {loading && (
-          <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl text-blue-800 text-center">
-            <p className="font-semibold">Processing transaction...</p>
-          </div>
-        )}
-
-        {/* Status Bar */}
-        <div className="mb-8">
-          <VotingStatus
-            isActive={votingActive}
-            startTime={votingStartTime}
-            endTime={votingEndTime}
-          />
-        </div>
-
-        {/* Winner Display */}
-        {winner && (
-          <div className="mb-8">
-            <WinnerDisplay winner={winner} />
-          </div>
-        )}
-
-        {/* Owner Notice */}
-        {isConnected && isOwnerValue && (
-          <div className="mb-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-4 text-white shadow-lg">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-xl">👑</span>
-              </div>
-              <div className="flex-1">
-                <h3 className="font-bold text-lg">You are the Election Owner</h3>
-                <p className="text-sm text-white/90">Only you can register contenders and manage voting sessions. Use the Admin Panel on the left to get started.</p>
-              </div>
+      <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-80' : 'ml-20'}`}>
+        {/* Top Header */}
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+          <div className="px-6 py-4 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Voting Dashboard</h1>
+              <p className="text-sm text-gray-500 mt-1">
+                {votingActive
+                  ? hasVoted
+                    ? "You've already voted. Thanks for participating!"
+                    : 'Select a contender below to cast your vote'
+                  : contenders.length > 0
+                    ? 'Voting will begin once the owner starts the session'
+                    : 'No contenders registered yet'}
+              </p>
             </div>
-          </div>
-        )}
-
-        {/* Non-Owner Notice */}
-        {isConnected && !isOwnerValue && contenders.length === 0 && (
-          <div className="mb-6 bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
-            <div className="flex items-start gap-3">
-              <span className="text-2xl">ℹ️</span>
-              <div>
-                <h3 className="font-bold text-gray-800 mb-1">Registration is Owner-Only</h3>
-                <p className="text-sm text-gray-600">Only the contract owner can register contenders. If you want to create a voting session, you'll need to deploy your own contract. For now, you can participate in voting once the owner starts a session.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Setup Guide for Owners */}
-        {isConnected && isOwnerValue && contenders.length === 0 && !votingActive && (
-          <div className="mb-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-white text-2xl">📋</span>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">Create Your Voting Session</h3>
-                <p className="text-gray-600 mb-4">Follow these steps to set up and start your voting:</p>
-                <ol className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
-                    <span><strong>Register Contenders:</strong> Scroll down to the <a href="#admin-panel" className="text-blue-600 underline font-semibold">Admin Panel</a> on the left to register up to 3 contenders with unique codes</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
-                    <span><strong>Start Voting:</strong> Once contenders are registered, set a duration and start the voting session</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
-                    <span><strong>Vote:</strong> Users can now cast their votes for their preferred contender</span>
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Admin Panel */}
-          <div className="lg:col-span-1">
-            {isConnected && isOwnerValue && (
-              <div className="mb-6" id="admin-panel">
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="text-2xl">⚙️</span>
-                  <h2 className="text-xl font-bold text-gray-800">Admin Panel</h2>
-                  <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded">Owner Only</span>
-                </div>
-                <AdminPanel isOwner={isOwnerValue} />
-              </div>
-            )}
-
-            {isConnected && !isOwnerValue && (
-              <div className="mb-6 bg-gray-50 border-2 border-gray-200 rounded-xl p-6">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <span className="text-3xl">🔒</span>
-                  </div>
-                  <h3 className="font-bold text-gray-800 mb-2">Admin Panel</h3>
-                  <p className="text-sm text-gray-600 mb-3">Only the contract owner can access admin functions to register contenders and manage voting sessions.</p>
-                  <p className="text-xs text-gray-500">You can participate in voting once a session is active.</p>
-                </div>
-              </div>
-            )}
-
-            {/* Info Card */}
-            <div className="bg-white rounded-xl shadow-md p-6 border-2 border-gray-100">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Voting Info</h3>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Total Votes:</span>
-                  <span className="font-semibold">{totalVotes}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Contenders:</span>
-                  <span className="font-semibold">{contenders.length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Network:</span>
-                  <span className="font-semibold text-blue-600">Base Sepolia</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - Contenders */}
-          <div className="lg:col-span-2">
-            <div className="mb-6 flex items-center justify-between">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Contenders</h2>
-                <p className="text-gray-600">
-                  {votingActive
-                    ? hasVoted
-                      ? "✅ You've already voted. Thanks for participating!"
-                      : '👆 Select a contender below to cast your vote'
-                    : contenders.length > 0
-                      ? '⏳ Voting will begin once the owner starts the session'
-                      : '📝 No contenders registered yet'}
-                </p>
-              </div>
+            <div className="flex items-center gap-4">
               {votingActive && contenders.length > 0 && (
                 <div className="bg-green-50 border-2 border-green-200 rounded-lg px-4 py-2">
                   <div className="flex items-center gap-2">
@@ -337,6 +308,86 @@ export default function VotePage() {
                   </div>
                 </div>
               )}
+              {!sidebarOpen && <WalletButton />}
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content Area */}
+        <main className="p-6">
+          {/* Error Display */}
+          {error && !error.includes('No contenders registered') && !error.includes('Voting is still active') && (
+            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl text-red-800">
+              <p className="font-semibold">Error: {error}</p>
+            </div>
+          )}
+
+          {/* Loading Indicator */}
+          {loading && (
+            <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl text-blue-800 text-center">
+              <p className="font-semibold">Processing transaction...</p>
+            </div>
+          )}
+
+          {/* Owner Notice */}
+          {isConnected && isOwnerValue && (
+            <div className="mb-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-4 text-white shadow-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl">👑</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg">You are the Election Owner</h3>
+                  <p className="text-sm text-white/90">
+                    {sidebarOpen 
+                      ? 'Use the Admin Panel in the sidebar to register contenders and manage voting sessions.'
+                      : 'Open the sidebar to access the Admin Panel for managing your voting session.'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Winner Display */}
+          {winner && (
+            <div className="mb-6">
+              <WinnerDisplay winner={winner} />
+            </div>
+          )}
+
+          {/* Setup Guide for Owners */}
+          {isConnected && isOwnerValue && contenders.length === 0 && !votingActive && (
+            <div className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border-2 border-blue-200">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-white text-2xl">📋</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Create Your Voting Session</h3>
+                  <p className="text-gray-600 mb-4">Follow these steps to set up and start your voting:</p>
+                  <ol className="space-y-3 text-gray-700">
+                    <li className="flex items-start gap-3">
+                      <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                      <span><strong>Register Contenders:</strong> Use the Admin Panel in the sidebar to register up to 3 contenders with unique codes</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                      <span><strong>Start Voting:</strong> Once contenders are registered, set a duration and start the voting session</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                      <span><strong>Vote:</strong> Users can now cast their votes for their preferred contender</span>
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Contenders Section */}
+          <div>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">Contenders</h2>
             </div>
 
             {contenders.length === 0 ? (
@@ -347,18 +398,21 @@ export default function VotePage() {
                 <h3 className="text-xl font-bold text-gray-800 mb-2">No Contenders Yet</h3>
                 <p className="text-gray-600 mb-6 max-w-md mx-auto">
                   {isOwnerValue 
-                    ? 'Get started by registering contenders using the Admin Panel on the left. You can register up to 3 contenders.'
+                    ? 'Get started by registering contenders using the Admin Panel in the sidebar. You can register up to 3 contenders.'
                     : 'Waiting for the election owner to register contenders. Check back soon!'}
                 </p>
-                {isOwnerValue && (
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg">
-                    <span>👈</span>
-                    <span className="font-medium">Use the Admin Panel to get started</span>
-                  </div>
+                {isOwnerValue && !sidebarOpen && (
+                  <button
+                    onClick={() => setSidebarOpen(true)}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <span>Open Sidebar</span>
+                    <span>→</span>
+                  </button>
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {contenders.map((contender) => (
                   <ContenderCard
                     key={contender.code}
@@ -386,9 +440,8 @@ export default function VotePage() {
               </div>
             )}
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
-
