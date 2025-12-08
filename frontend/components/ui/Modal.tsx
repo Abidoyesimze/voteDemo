@@ -22,7 +22,7 @@ export default function Modal({
   showCloseButton = true,
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  useClickOutside(modalRef, () => isOpen && onClose());
+  useClickOutside<HTMLDivElement>(modalRef, () => isOpen && onClose());
 
   useEffect(() => {
     if (isOpen) {
