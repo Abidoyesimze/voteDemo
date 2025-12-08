@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { getVotingContract, getVotingContractWithSigner, type ContDetails, CONTRACT_ADDRESS } from '@/lib/contract';
+import { getContractErrorMessage } from '@/lib/errorMessages';
+import { transactionTracker } from '@/lib/transactionTracker';
+import { analytics } from '@/lib/analytics';
 
 export function useVotingContract() {
   const { address, isConnected } = useAppKitAccount();
@@ -26,16 +29,22 @@ export function useVotingContract() {
       return await fn(contract);
     } catch (err: any) {
       console.error('Read contract error:', err);
-      setError(err.message || 'Failed to read contract');
+      const errorMessage = getContractErrorMessage(err);
+      setError(errorMessage);
+      analytics.error(err, 'readContract');
       return null;
     }
   }, [getProvider]);
 
-  // Write contract functions
-  const writeContract = useCallback(async <T,>(fn: (contract: any) => Promise<T>): Promise<T | null> => {
+  // Write contract functions with improved error handling
+  const writeContract = useCallback(async <T,>(
+    fn: (contract: any) => Promise<T>,
+    txType: 'vote' | 'register' | 'startVoting' | 'endVoting' | 'batchRegister'
+  ): Promise<T | null> => {
     const provider = getProvider();
     if (!provider || !isConnected) {
-      setError('Wallet not connected');
+      const errorMsg = 'Wallet not connected';
+      setError(errorMsg);
       return null;
     }
     
@@ -44,11 +53,34 @@ export function useVotingContract() {
     try {
       const contract = await getVotingContractWithSigner(provider);
       const result = await fn(contract);
+      
+      // Track transaction
+      if (result && typeof result === 'object' && 'hash' in result) {
+        const txHash = (result as any).hash;
+        transactionTracker.addTransaction(txHash, txType);
+        analytics.transaction('sent', txHash, txType);
+        
+        // Wait for confirmation
+        if ('wait' in result && typeof (result as any).wait === 'function') {
+          try {
+            await (result as any).wait();
+            transactionTracker.updateTransaction(txHash, 'confirmed');
+            analytics.transaction('confirmed', txHash, txType);
+          } catch (waitError) {
+            transactionTracker.updateTransaction(txHash, 'failed');
+            analytics.transaction('failed', txHash, txType);
+            throw waitError;
+          }
+        }
+      }
+      
       setLoading(false);
       return result;
     } catch (err: any) {
       console.error('Write contract error:', err);
-      setError(err.message || 'Transaction failed');
+      const errorMessage = getContractErrorMessage(err);
+      setError(errorMessage);
+      analytics.error(err, `writeContract:${txType}`);
       setLoading(false);
       return null;
     }
@@ -60,7 +92,7 @@ export function useVotingContract() {
       const tx = await contract.vote(code);
       await tx.wait();
       return tx;
-    });
+    }, 'vote');
   }, [writeContract]);
 
   const registerContender = useCallback(async (contender: string, code: string) => {
@@ -68,7 +100,7 @@ export function useVotingContract() {
       const tx = await contract.registration(contender, code);
       await tx.wait();
       return tx;
-    });
+    }, 'register');
   }, [writeContract]);
 
   const batchRegister = useCallback(async (contenders: [string, string, string], codes: [string, string, string]) => {
@@ -76,7 +108,7 @@ export function useVotingContract() {
       const tx = await contract.batchRegistration(contenders, codes);
       await tx.wait();
       return tx;
-    });
+    }, 'batchRegister');
   }, [writeContract]);
 
   const startVoting = useCallback(async (durationInSeconds: number) => {
@@ -84,7 +116,7 @@ export function useVotingContract() {
       const tx = await contract.startVoting(durationInSeconds);
       await tx.wait();
       return tx;
-    });
+    }, 'startVoting');
   }, [writeContract]);
 
   const endVoting = useCallback(async () => {
@@ -92,7 +124,7 @@ export function useVotingContract() {
       const tx = await contract.endVoting();
       await tx.wait();
       return tx;
-    });
+    }, 'endVoting');
   }, [writeContract]);
 
   const declareWinner = useCallback(async () => {
@@ -100,7 +132,7 @@ export function useVotingContract() {
       const tx = await contract.declareWinner();
       await tx.wait();
       return tx;
-    });
+    }, 'endVoting');
   }, [writeContract]);
 
   // Read functions
@@ -134,12 +166,12 @@ export function useVotingContract() {
 
     try {
       const contract = getVotingContract(provider);
-      const contenderAddresses: string[] = await contract.getAllContenders();
-
+      const contenderAddresses = await contract.getAllContenders();
+      
       if (!contenderAddresses || contenderAddresses.length === 0) return [];
 
       const details = await Promise.all(
-        contenderAddresses.map(async (addr) => {
+        contenderAddresses.map(async (addr: string) => {
           const detail = await contract.contenderdet(addr);
           return {
             contender: detail.contender,
@@ -147,13 +179,15 @@ export function useVotingContract() {
             votersNo: Number(detail.votersNo),
             registered: detail.registered,
           } as ContDetails;
-        }),
+        })
       );
-
+      
       return details.filter((detail) => detail.registered);
     } catch (err: any) {
       console.error('Get all contenders error:', err);
-      setError(err.message || 'Failed to get contenders');
+      const errorMessage = getContractErrorMessage(err);
+      setError(errorMessage);
+      analytics.error(err, 'getAllContendersWithDetails');
       return [];
     }
   }, [getProvider]);
@@ -212,4 +246,3 @@ export function useVotingContract() {
     isOwner,
   };
 }
-
