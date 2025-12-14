@@ -1,0 +1,16 @@
+# Default owners for everything in the repo
+* @your-username
+
+# Frontend code
+/frontend/ @your-username
+
+# Smart contract code
+/smartcontract/ @your-username
+
+# Documentation
+*.md @your-username
+/docs/ @your-username
+
+# CI/CD
+/.github/ @your-username
+
