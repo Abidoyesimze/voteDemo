@@ -287,15 +287,15 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             {/* Single Registration Form */}
           {!batchMode && (
               <div className="space-y-5">
-                <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-5 shadow-inner">
-                  <h3 className="text-lg font-semibold text-slate-900">Register Single Contender</h3>
-                  <p className="text-sm text-slate-500 mt-1">
+                <div className="bg-slate-50/70 dark:bg-gray-700/70 border border-slate-100 dark:border-gray-600 rounded-2xl p-5 shadow-inner">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Register Single Contender</h3>
+                  <p className="text-sm text-slate-500 dark:text-gray-400 mt-1">
                     Ideal for incremental updates or replacement contenders between elections.
                   </p>
                 </div>
-                <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+                <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-2xl p-5 shadow-sm space-y-4">
                   <div>
-                    <label htmlFor="single-address" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    <label htmlFor="single-address" className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Contender Address
                     </label>
                     <input
@@ -304,11 +304,11 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                       placeholder="0x..."
                       value={singleAddress}
                       onChange={(e) => setSingleAddress(e.target.value)}
-                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                     />
                   </div>
                   <div>
-                    <label htmlFor="single-code" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    <label htmlFor="single-code" className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Voting Code
                     </label>
                     <input
@@ -317,7 +317,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                       placeholder="e.g., CODE1"
                       value={singleCode}
                       onChange={(e) => setSingleCode(e.target.value)}
-                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                     />
                   </div>
                   <button
@@ -332,14 +332,14 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             )}
 
             {/* Start Voting */}
-            <div className="pt-2 space-y-4 border-t border-gray-100">
+            <div className="pt-2 space-y-4 border-t border-gray-100 dark:border-gray-700">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-slate-900">Start Voting Session</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-green-50 text-green-700 border border-green-100">Required</span>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Start Voting Session</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800">Required</span>
               </div>
-              <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+              <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-2xl p-5 shadow-sm space-y-4">
                 <div>
-                  <label htmlFor="voting-duration" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  <label htmlFor="voting-duration" className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                     Voting Duration
                   </label>
                   <div className="mt-2 flex flex-col sm:flex-row gap-3">
@@ -350,13 +350,13 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                       value={duration}
                       onChange={(e) => setDuration(e.target.value)}
                       min="1"
-                      className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                      className="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                     />
                     <select
                       id="duration-unit"
                       value={durationUnit}
                       onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
-                      className="px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
+                      className="px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     >
                       <option value="hours">Hours</option>
                       <option value="minutes">Minutes</option>
@@ -365,7 +365,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                   </div>
                 </div>
                 {duration && (
-                  <p className="text-xs text-gray-500 bg-gray-50 rounded-xl px-4 py-2">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-xl px-4 py-2">
                     Voting will run for {duration} {durationUnit} (
                     {durationUnit === 'hours'
                       ? parseInt(duration, 10) * 3600
@@ -385,11 +385,11 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             </div>
 
             {/* End Voting */}
-            <div className="pt-2 border-t border-gray-100">
-              <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+            <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
+              <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-2xl p-5 shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900">End Voting</h3>
-                  <span className="text-xs text-gray-400">Manual override</span>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">End Voting</h3>
+                  <span className="text-xs text-gray-400 dark:text-gray-500">Manual override</span>
                 </div>
                 <button
                   onClick={handleEndVoting}
