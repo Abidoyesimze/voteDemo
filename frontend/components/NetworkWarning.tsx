@@ -11,14 +11,14 @@ export default function NetworkWarning() {
 
   return (
     <div
-      className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-4"
+      className="bg-yellow-50 dark:bg-yellow-900/30 border-2 border-yellow-200 dark:border-yellow-800 rounded-xl p-4 mb-4"
       role="alert"
       aria-live="polite"
     >
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0">
           <svg
-            className="w-5 h-5 text-yellow-600"
+            className="w-5 h-5 text-yellow-600 dark:text-yellow-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -32,12 +32,12 @@ export default function NetworkWarning() {
           </svg>
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-yellow-800 mb-1">Wrong Network</h3>
-          <p className="text-sm text-yellow-700 mb-2">
+          <h3 className="font-semibold text-yellow-800 dark:text-yellow-300 mb-1">Wrong Network</h3>
+          <p className="text-sm text-yellow-700 dark:text-yellow-400 mb-2">
             You are connected to <strong>{network.name}</strong>, but this app requires{' '}
             <strong>{NETWORK_CONFIG.name}</strong>.
           </p>
-          <p className="text-xs text-yellow-600">
+          <p className="text-xs text-yellow-600 dark:text-yellow-500">
             Please switch to {NETWORK_CONFIG.name} in your wallet to continue.
           </p>
         </div>
