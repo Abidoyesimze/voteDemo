@@ -137,3 +137,11 @@ export function validateSingleRegistration(
   return { isValid: true };
 }
 
+
+
+
+
+
+
+
+

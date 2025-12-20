@@ -117,3 +117,11 @@ export function exportAsText(results: VotingResults, filename: string = 'voting-
   URL.revokeObjectURL(url);
 }
 
+
+
+
+
+
+
+
+

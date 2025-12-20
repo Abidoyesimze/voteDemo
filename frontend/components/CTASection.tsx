@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function CTASection() {
   return (
-    <section className="py-28 relative overflow-hidden bg-slate-900 text-white">
+    <section className="py-28 relative overflow-hidden bg-slate-900 dark:bg-gray-900 text-white">
       {/* Gradient lights */}
       <div className="absolute inset-0">
         <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 opacity-40 blur-3xl" />

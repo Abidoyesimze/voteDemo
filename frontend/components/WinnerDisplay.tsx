@@ -16,7 +16,7 @@ export default function WinnerDisplay({ winner }: WinnerDisplayProps) {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl shadow-2xl border-4 border-yellow-300 bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 p-8">
+    <div className="relative overflow-hidden rounded-2xl shadow-2xl border-4 border-yellow-300 dark:border-yellow-600 bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 dark:from-yellow-500 dark:via-amber-600 dark:to-orange-600 p-8">
       {/* Animated Background Pattern */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
@@ -52,26 +52,26 @@ export default function WinnerDisplay({ winner }: WinnerDisplayProps) {
         <p className="text-yellow-100 text-lg mb-6">Congratulations to the winner</p>
 
         {/* Winner Card */}
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border-2 border-white/50 max-w-md mx-auto">
+        <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border-2 border-white/50 dark:border-gray-700/50 max-w-md mx-auto">
           <div className="mb-4">
-            <h3 className="text-3xl font-extrabold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent mb-2">
+            <h3 className="text-3xl font-extrabold bg-gradient-to-r from-orange-600 to-amber-600 dark:from-orange-400 dark:to-amber-400 bg-clip-text text-transparent mb-2">
               {winner.code}
             </h3>
-            <div className="inline-flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-lg border border-gray-200">
-              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="inline-flex items-center gap-2 bg-gray-50 dark:bg-gray-700 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600">
+              <svg className="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <p className="text-sm text-gray-600 font-mono">{formatAddress(winner.address)}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 font-mono">{formatAddress(winner.address)}</p>
             </div>
           </div>
           
           {/* Vote Count */}
-          <div className="pt-4 border-t border-gray-200">
-            <div className="text-5xl font-extrabold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent mb-2">
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="text-5xl font-extrabold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 dark:from-orange-400 dark:via-amber-400 dark:to-yellow-400 bg-clip-text text-transparent mb-2">
               {winner.voteCount}
             </div>
-            <div className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+            <div className="text-sm font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
               {winner.voteCount === 1 ? 'Vote' : 'Votes'} Received
             </div>
           </div>

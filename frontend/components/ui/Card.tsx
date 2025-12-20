@@ -15,7 +15,7 @@ export default function Card({
   hover = false,
   padding = 'md',
 }: CardProps) {
-  const baseClasses = 'bg-white rounded-2xl border border-gray-200 shadow-lg';
+  const baseClasses = 'bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-gray-900/50';
   const hoverClasses = hover ? 'transition-all duration-300 card-hover' : '';
   
   const paddingClasses = {
@@ -37,11 +37,11 @@ export function CardHeader({ children, className = '' }: { children: ReactNode; 
 }
 
 export function CardTitle({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <h3 className={`text-xl font-bold text-gray-900 ${className}`}>{children}</h3>;
+  return <h3 className={`text-xl font-bold text-gray-900 dark:text-white ${className}`}>{children}</h3>;
 }
 
 export function CardDescription({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <p className={`text-sm text-gray-600 ${className}`}>{children}</p>;
+  return <p className={`text-sm text-gray-600 dark:text-gray-300 ${className}`}>{children}</p>;
 }
 
 export function CardContent({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -49,6 +49,14 @@ export function CardContent({ children, className = '' }: { children: ReactNode;
 }
 
 export function CardFooter({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`mt-4 pt-4 border-t border-gray-200 ${className}`}>{children}</div>;
+  return <div className={`mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 ${className}`}>{children}</div>;
 }
+
+
+
+
+
+
+
+
 

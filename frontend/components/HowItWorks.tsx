@@ -40,7 +40,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 bg-slate-950 text-white relative overflow-hidden">
+    <section id="how-it-works" className="py-24 bg-slate-950 dark:bg-gray-900 text-white relative overflow-hidden">
       {/* Decorative gradients */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-600 rounded-full blur-3xl"></div>

@@ -22,8 +22,8 @@ export default function TransactionHistory() {
   if (transactions.length === 0) {
     return (
       <Card>
-        <h3 className="text-lg font-bold text-gray-900 mb-4">Transaction History</h3>
-        <p className="text-gray-500 text-sm">No transactions yet</p>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Transaction History</h3>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">No transactions yet</p>
       </Card>
     );
   }
@@ -31,11 +31,11 @@ export default function TransactionHistory() {
   const getStatusColor = (status: TransactionStatus['status']) => {
     switch (status) {
       case 'confirmed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300';
       case 'failed':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300';
       default:
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300';
     }
   };
 
@@ -58,16 +58,16 @@ export default function TransactionHistory() {
 
   return (
     <Card>
-      <h3 className="text-lg font-bold text-gray-900 mb-4">Transaction History</h3>
+      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Transaction History</h3>
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {transactions.map(tx => (
           <div
             key={tx.hash}
-            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200"
+            className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600"
           >
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-sm font-semibold text-gray-900">
+                <span className="text-sm font-semibold text-gray-900 dark:text-white">
                   {getTypeLabel(tx.type)}
                 </span>
                 <span
@@ -76,14 +76,14 @@ export default function TransactionHistory() {
                   {tx.status}
                 </span>
               </div>
-              <p className="text-xs text-gray-500 font-mono truncate">{tx.hash}</p>
-              <p className="text-xs text-gray-400 mt-1">{formatDate(tx.timestamp / 1000)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-mono truncate">{tx.hash}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{formatDate(tx.timestamp / 1000)}</p>
             </div>
             <a
               href={getTransactionUrl(tx.hash)}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-4 p-2 text-blue-600 hover:text-blue-700 transition-colors"
+              className="ml-4 p-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
               aria-label="View transaction on block explorer"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,4 +101,12 @@ export default function TransactionHistory() {
     </Card>
   );
 }
+
+
+
+
+
+
+
+
 
