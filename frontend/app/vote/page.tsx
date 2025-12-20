@@ -290,7 +290,7 @@ export default function VotePage() {
 
         {/* Sidebar Footer */}
         {sidebarOpen && (
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <WalletButton />
             </div>
@@ -301,11 +301,11 @@ export default function VotePage() {
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-80' : 'ml-20'}`}>
         {/* Top Header */}
-        <header className="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-20 shadow-sm">
           <div className="px-6 py-4 flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Voting Dashboard</h1>
-              <p className="text-sm text-gray-500 mt-1">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Voting Dashboard</h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 {votingActive
                   ? hasVoted
                     ? "You've already voted. Thanks for participating!"
@@ -317,10 +317,10 @@ export default function VotePage() {
             </div>
             <div className="flex items-center gap-4">
               {votingActive && contenders.length > 0 && (
-                <div className="bg-green-50 border-2 border-green-200 rounded-lg px-4 py-2">
+                <div className="bg-green-50 dark:bg-green-900/30 border-2 border-green-200 dark:border-green-800 rounded-lg px-4 py-2">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span className="text-green-700 font-semibold text-sm">Voting Active</span>
+                    <span className="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full animate-pulse"></span>
+                    <span className="text-green-700 dark:text-green-400 font-semibold text-sm">Voting Active</span>
                   </div>
                 </div>
               )}
@@ -333,14 +333,14 @@ export default function VotePage() {
         <main className="p-6">
           {/* Error Display */}
           {error && !error.includes('No contenders registered') && !error.includes('Voting is still active') && (
-            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl text-red-800">
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border-2 border-red-200 dark:border-red-800 rounded-xl text-red-800 dark:text-red-300">
               <p className="font-semibold">Error: {error}</p>
             </div>
           )}
 
           {/* Loading Indicator */}
           {loading && (
-            <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl text-blue-800 text-center">
+            <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-200 dark:border-blue-800 rounded-xl text-blue-800 dark:text-blue-300 text-center">
               <p className="font-semibold">Processing transaction...</p>
             </div>
           )}
@@ -373,15 +373,15 @@ export default function VotePage() {
 
           {/* Setup Guide for Owners */}
           {isConnected && isOwnerValue && contenders.length === 0 && !votingActive && (
-            <div className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border-2 border-blue-200">
+            <div className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6 border-2 border-blue-200 dark:border-blue-800">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-blue-600 dark:bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-white text-2xl">📋</span>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Create Your Voting Session</h3>
-                  <p className="text-gray-600 mb-4">Follow these steps to set up and start your voting:</p>
-                  <ol className="space-y-3 text-gray-700">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">Create Your Voting Session</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">Follow these steps to set up and start your voting:</p>
+                  <ol className="space-y-3 text-gray-700 dark:text-gray-300">
                     <li className="flex items-start gap-3">
                       <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
                       <span><strong>Register Contenders:</strong> Use the Admin Panel in the sidebar to register up to 3 contenders with unique codes</span>
@@ -417,12 +417,12 @@ export default function VotePage() {
             )}
 
             {contenders.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-xl border-2 border-dashed border-gray-300">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="text-center py-16 bg-white dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700">
+                <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-4xl">📊</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">No Contenders Yet</h3>
-                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">No Contenders Yet</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">
                   {isOwnerValue 
                     ? 'Get started by registering contenders using the Admin Panel in the sidebar. You can register up to 3 contenders.'
                     : 'Waiting for the election owner to register contenders. Check back soon!'}
@@ -430,7 +430,7 @@ export default function VotePage() {
                 {isOwnerValue && !sidebarOpen && (
                   <button
                     onClick={() => setSidebarOpen(true)}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                   >
                     <span>Open Sidebar</span>
                     <span>→</span>
@@ -460,11 +460,11 @@ export default function VotePage() {
             )}
 
             {!isConnected && (
-              <div className="mt-8 text-center bg-blue-50 border-2 border-blue-200 rounded-xl p-8">
-                <h3 className="text-xl font-semibold text-blue-800 mb-2">
+              <div className="mt-8 text-center bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-200 dark:border-blue-800 rounded-xl p-8">
+                <h3 className="text-xl font-semibold text-blue-800 dark:text-blue-300 mb-2">
                   Connect Your Wallet
                 </h3>
-                <p className="text-blue-600 mb-4">
+                <p className="text-blue-600 dark:text-blue-400 mb-4">
                   Connect your wallet to participate in voting
                 </p>
                 <WalletButton />
