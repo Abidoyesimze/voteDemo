@@ -15,7 +15,7 @@ export default function Loading({ size = 'md', text, fullScreen = false }: Loadi
 
   const spinner = (
     <svg
-      className={`animate-spin ${sizeClasses[size]} text-blue-600`}
+      className={`animate-spin ${sizeClasses[size]} text-blue-600 dark:text-blue-400`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -38,9 +38,9 @@ export default function Loading({ size = 'md', text, fullScreen = false }: Loadi
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
         {spinner}
-        {text && <p className="mt-4 text-gray-600 font-medium">{text}</p>}
+        {text && <p className="mt-4 text-gray-600 dark:text-gray-300 font-medium">{text}</p>}
       </div>
     );
   }
@@ -48,7 +48,7 @@ export default function Loading({ size = 'md', text, fullScreen = false }: Loadi
   return (
     <div className="flex flex-col items-center justify-center">
       {spinner}
-      {text && <p className="mt-2 text-sm text-gray-600">{text}</p>}
+      {text && <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{text}</p>}
     </div>
   );
 }
