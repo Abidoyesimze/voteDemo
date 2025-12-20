@@ -50,3 +50,17 @@ export interface VoteRecord {
   txHash: string;
 }
 
+export interface Contender {
+  code: string;
+  address: string;
+  voteCount: number;
+}
+
+
+
+
+
+
+
+
+
