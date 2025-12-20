@@ -144,10 +144,10 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-purple-100 bg-white shadow-[0_25px_60px_rgba(79,70,229,0.12)] p-6 md:p-8">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-blue-50 opacity-70 pointer-events-none" />
-      <div className="absolute -right-8 -top-8 w-36 h-36 bg-purple-200/40 blur-3xl rounded-full pointer-events-none" />
-      <div className="absolute -left-10 bottom-0 w-40 h-40 bg-blue-200/40 blur-3xl rounded-full pointer-events-none" />
+    <div className="relative overflow-hidden rounded-3xl border border-purple-100 dark:border-purple-900 bg-white dark:bg-gray-800 shadow-[0_25px_60px_rgba(79,70,229,0.12)] dark:shadow-[0_25px_60px_rgba(79,70,229,0.3)] p-6 md:p-8">
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-purple-900/20 dark:via-gray-800 dark:to-blue-900/20 opacity-70 pointer-events-none" />
+      <div className="absolute -right-8 -top-8 w-36 h-36 bg-purple-200/40 dark:bg-purple-800/40 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute -left-10 bottom-0 w-40 h-40 bg-blue-200/40 dark:bg-blue-800/40 blur-3xl rounded-full pointer-events-none" />
 
       <div className="relative">
         <div className="flex items-center justify-between mb-6">
@@ -156,13 +156,13 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
               🛠️
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-purple-500">Owner Console</p>
-              <h2 className="text-2xl font-extrabold text-slate-900">Register & Manage Session</h2>
+              <p className="text-xs uppercase tracking-[0.3em] text-purple-500 dark:text-purple-400">Owner Console</p>
+              <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white">Register & Manage Session</h2>
             </div>
           </div>
           <button
             onClick={() => setShowPanel(!showPanel)}
-            className="p-2.5 rounded-xl border border-gray-200 text-gray-500 hover:text-purple-600 hover:border-purple-200 transition-all"
+            className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-200 dark:hover:border-purple-700 transition-all"
             aria-label={showPanel ? 'Collapse panel' : 'Expand panel'}
           >
             {showPanel ? '−' : '+'}
@@ -170,21 +170,21 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
         </div>
 
         {error && (
-          <div className="mb-4 p-4 rounded-2xl border border-red-200 bg-red-50 text-red-700 text-sm flex items-center gap-3">
+          <div className="mb-4 p-4 rounded-2xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm flex items-center gap-3">
             <span>⚠️</span>
             <span>{error}</span>
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-4 p-4 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-700 text-sm flex items-center gap-3">
+          <div className="mb-4 p-4 rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm flex items-center gap-3">
             <span>✅</span>
             <span>{successMessage}</span>
           </div>
         )}
 
         {loading && (
-          <div className="mb-4 p-4 rounded-2xl border border-blue-200 bg-blue-50 text-blue-700 text-sm flex items-center gap-3 justify-center">
+          <div className="mb-4 p-4 rounded-2xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm flex items-center gap-3 justify-center">
             <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
             <span>Waiting for transaction confirmation…</span>
           </div>
