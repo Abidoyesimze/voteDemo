@@ -166,11 +166,11 @@ export default function VotePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-80' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 flex flex-col fixed h-full z-30`}>
+      <aside className={`${sidebarOpen ? 'w-80' : 'w-20'} bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 flex flex-col fixed h-full z-30`}>
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
           {sidebarOpen && (
             <Link href="/" className="flex items-center space-x-2 group">
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform">
@@ -180,21 +180,21 @@ export default function VotePage() {
                 <h2 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   QuickVote
                 </h2>
-                <p className="text-xs text-gray-500">Dashboard</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Dashboard</p>
               </div>
             </Link>
           )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             aria-label="Toggle sidebar"
           >
             {sidebarOpen ? (
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
               </svg>
             ) : (
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
               </svg>
             )}
@@ -208,12 +208,12 @@ export default function VotePage() {
             <nav className="space-y-2">
               <Link
                 href="/"
-                className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               >
                 <span>🏠</span>
                 <span>Home</span>
               </Link>
-              <div className="flex items-center gap-3 px-3 py-2 text-gray-700 bg-blue-50 rounded-lg">
+              <div className="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
                 <span>📊</span>
                 <span className="font-semibold">Voting Dashboard</span>
               </div>
@@ -234,7 +234,7 @@ export default function VotePage() {
             <div className="pt-4 border-t border-gray-200">
               <div className="mb-3 flex items-center gap-2">
                 <span className="text-xl">⚙️</span>
-                <h3 className="text-lg font-bold text-gray-800">Admin Panel</h3>
+                <h3 className="text-lg font-bold text-gray-800 dark:text-white">Admin Panel</h3>
                 <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs font-semibold rounded">Owner</span>
               </div>
               <AdminPanel isOwner={isOwnerValue} />
@@ -244,13 +244,13 @@ export default function VotePage() {
           {/* Admin Panel Locked - Non-Owner */}
           {isConnected && !isOwnerValue && sidebarOpen && (
             <div className="pt-4 border-t border-gray-200">
-              <div className="bg-gray-50 border-2 border-gray-200 rounded-xl p-4">
+              <div className="bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-4">
                 <div className="text-center">
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <div className="w-12 h-12 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-2">
                     <span className="text-2xl">🔒</span>
                   </div>
-                  <h3 className="font-bold text-gray-800 mb-1 text-sm">Admin Panel</h3>
-                  <p className="text-xs text-gray-600">Owner only</p>
+                  <h3 className="font-bold text-gray-800 dark:text-white mb-1 text-sm">Admin Panel</h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Owner only</p>
                 </div>
               </div>
             </div>
@@ -259,25 +259,25 @@ export default function VotePage() {
           {/* Voting Info */}
           {sidebarOpen && (
             <div className="pt-4 border-t border-gray-200">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">Voting Info</h3>
-              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Voting Info</h3>
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Total Votes</span>
-                  <span className="font-bold text-gray-900">{totalVotes}</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Total Votes</span>
+                  <span className="font-bold text-gray-900 dark:text-white">{totalVotes}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Contenders</span>
-                  <span className="font-bold text-gray-900">{contenders.length}</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Contenders</span>
+                  <span className="font-bold text-gray-900 dark:text-white">{contenders.length}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Network</span>
-                  <span className="font-semibold text-blue-600 text-sm">Base Sepolia</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Network</span>
+                  <span className="font-semibold text-blue-600 dark:text-blue-400 text-sm">Base Sepolia</span>
                 </div>
                 {isConnected && (
-                  <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-                    <span className="text-sm text-gray-600">Your Status</span>
+                  <div className="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-gray-600">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">Your Status</span>
                     <span className={`text-xs font-semibold px-2 py-1 rounded ${
-                      hasVoted ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                      hasVoted ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : 'bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300'
                     }`}>
                       {hasVoted ? 'Voted' : 'Not Voted'}
                     </span>
