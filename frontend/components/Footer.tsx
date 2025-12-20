@@ -2,7 +2,7 @@
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 text-white relative overflow-hidden">
+    <footer className="bg-slate-950 dark:bg-gray-900 text-white relative overflow-hidden">
       {/* background accents */}
       <div className="absolute inset-0 opacity-40 pointer-events-none">
         <div className="absolute -top-20 -left-10 w-72 h-72 bg-gradient-to-br from-blue-500 to-purple-600 blur-3xl"></div>

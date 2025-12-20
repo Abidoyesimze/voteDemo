@@ -144,10 +144,10 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-purple-100 bg-white shadow-[0_25px_60px_rgba(79,70,229,0.12)] p-6 md:p-8">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-blue-50 opacity-70 pointer-events-none" />
-      <div className="absolute -right-8 -top-8 w-36 h-36 bg-purple-200/40 blur-3xl rounded-full pointer-events-none" />
-      <div className="absolute -left-10 bottom-0 w-40 h-40 bg-blue-200/40 blur-3xl rounded-full pointer-events-none" />
+    <div className="relative overflow-hidden rounded-3xl border border-purple-100 dark:border-purple-900 bg-white dark:bg-gray-800 shadow-[0_25px_60px_rgba(79,70,229,0.12)] dark:shadow-[0_25px_60px_rgba(79,70,229,0.3)] p-6 md:p-8">
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-purple-900/20 dark:via-gray-800 dark:to-blue-900/20 opacity-70 pointer-events-none" />
+      <div className="absolute -right-8 -top-8 w-36 h-36 bg-purple-200/40 dark:bg-purple-800/40 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute -left-10 bottom-0 w-40 h-40 bg-blue-200/40 dark:bg-blue-800/40 blur-3xl rounded-full pointer-events-none" />
 
       <div className="relative">
         <div className="flex items-center justify-between mb-6">
@@ -156,13 +156,13 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
               🛠️
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-purple-500">Owner Console</p>
-              <h2 className="text-2xl font-extrabold text-slate-900">Register & Manage Session</h2>
+              <p className="text-xs uppercase tracking-[0.3em] text-purple-500 dark:text-purple-400">Owner Console</p>
+              <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white">Register & Manage Session</h2>
             </div>
           </div>
           <button
             onClick={() => setShowPanel(!showPanel)}
-            className="p-2.5 rounded-xl border border-gray-200 text-gray-500 hover:text-purple-600 hover:border-purple-200 transition-all"
+            className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-200 dark:hover:border-purple-700 transition-all"
             aria-label={showPanel ? 'Collapse panel' : 'Expand panel'}
           >
             {showPanel ? '−' : '+'}
@@ -170,21 +170,21 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
         </div>
 
         {error && (
-          <div className="mb-4 p-4 rounded-2xl border border-red-200 bg-red-50 text-red-700 text-sm flex items-center gap-3">
+          <div className="mb-4 p-4 rounded-2xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm flex items-center gap-3">
             <span>⚠️</span>
             <span>{error}</span>
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-4 p-4 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-700 text-sm flex items-center gap-3">
+          <div className="mb-4 p-4 rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm flex items-center gap-3">
             <span>✅</span>
             <span>{successMessage}</span>
           </div>
         )}
 
         {loading && (
-          <div className="mb-4 p-4 rounded-2xl border border-blue-200 bg-blue-50 text-blue-700 text-sm flex items-center gap-3 justify-center">
+          <div className="mb-4 p-4 rounded-2xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm flex items-center gap-3 justify-center">
             <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
             <span>Waiting for transaction confirmation…</span>
           </div>
@@ -193,14 +193,14 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
         {showPanel && (
           <div className="space-y-8">
             {/* Registration Mode Toggle */}
-            <div className="bg-white/80 border border-purple-100 rounded-2xl p-3 shadow-inner">
+            <div className="bg-white/80 dark:bg-gray-700/80 border border-purple-100 dark:border-purple-800 rounded-2xl p-3 shadow-inner">
               <div className="flex gap-3">
                 <button
                   onClick={() => setBatchMode(true)}
                   className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
                     batchMode
                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
-                      : 'bg-gray-50 border border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-200'
+                      : 'bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-200 dark:hover:border-purple-700'
                   }`}
                 >
                   <span>👥</span>
@@ -211,7 +211,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                   className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
                     !batchMode
                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
-                      : 'bg-gray-50 border border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-200'
+                      : 'bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-200 dark:hover:border-purple-700'
                   }`}
                 >
                   <span>👤</span>
@@ -223,21 +223,21 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             {/* Batch Registration Form */}
             {batchMode && (
               <div className="space-y-5">
-                <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-5 shadow-inner">
-                  <h3 className="text-lg font-semibold text-slate-900">Register 3 Contenders</h3>
-                  <p className="text-sm text-slate-500 mt-1">
+                <div className="bg-slate-50/70 dark:bg-gray-700/70 border border-slate-100 dark:border-gray-600 rounded-2xl p-5 shadow-inner">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Register 3 Contenders</h3>
+                  <p className="text-sm text-slate-500 dark:text-gray-400 mt-1">
                     Assign unique addresses and voting codes. Each code is permanent once registered.
                   </p>
                 </div>
                 {[0, 1, 2].map((index) => (
-                  <div key={index} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm space-y-3">
+                  <div key={index} className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-2xl p-4 shadow-sm space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold text-gray-600">Contender {index + 1}</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 border border-purple-100">Required</span>
+                      <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Contender {index + 1}</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 border border-purple-100 dark:border-purple-800">Required</span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor={`batch-address-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        <label htmlFor={`batch-address-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                           Wallet Address
                         </label>
                         <input
@@ -250,11 +250,11 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                             newAddrs[index] = e.target.value;
                             setBatchAddresses(newAddrs);
                           }}
-                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                         />
                       </div>
                       <div>
-                        <label htmlFor={`batch-code-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        <label htmlFor={`batch-code-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                           Voting Code
                         </label>
                         <input
@@ -267,9 +267,9 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                             newCodes[index] = e.target.value;
                             setBatchCodes(newCodes);
                           }}
-                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                         />
-                        <p className="text-xs text-gray-400 mt-1">Voters will enter this code</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Voters will enter this code</p>
                       </div>
                     </div>
                   </div>
@@ -287,15 +287,15 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             {/* Single Registration Form */}
           {!batchMode && (
               <div className="space-y-5">
-                <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-5 shadow-inner">
-                  <h3 className="text-lg font-semibold text-slate-900">Register Single Contender</h3>
-                  <p className="text-sm text-slate-500 mt-1">
+                <div className="bg-slate-50/70 dark:bg-gray-700/70 border border-slate-100 dark:border-gray-600 rounded-2xl p-5 shadow-inner">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Register Single Contender</h3>
+                  <p className="text-sm text-slate-500 dark:text-gray-400 mt-1">
                     Ideal for incremental updates or replacement contenders between elections.
                   </p>
                 </div>
-                <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+                <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-2xl p-5 shadow-sm space-y-4">
                   <div>
-                    <label htmlFor="single-address" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    <label htmlFor="single-address" className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Contender Address
                     </label>
                     <input
@@ -304,11 +304,11 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                       placeholder="0x..."
                       value={singleAddress}
                       onChange={(e) => setSingleAddress(e.target.value)}
-                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                     />
                   </div>
                   <div>
-                    <label htmlFor="single-code" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    <label htmlFor="single-code" className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Voting Code
                     </label>
                     <input
@@ -317,7 +317,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                       placeholder="e.g., CODE1"
                       value={singleCode}
                       onChange={(e) => setSingleCode(e.target.value)}
-                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                      className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                     />
                   </div>
                   <button
@@ -332,14 +332,14 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             )}
 
             {/* Start Voting */}
-            <div className="pt-2 space-y-4 border-t border-gray-100">
+            <div className="pt-2 space-y-4 border-t border-gray-100 dark:border-gray-700">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-slate-900">Start Voting Session</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-green-50 text-green-700 border border-green-100">Required</span>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Start Voting Session</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800">Required</span>
               </div>
-              <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+              <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-2xl p-5 shadow-sm space-y-4">
                 <div>
-                  <label htmlFor="voting-duration" className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  <label htmlFor="voting-duration" className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                     Voting Duration
                   </label>
                   <div className="mt-2 flex flex-col sm:flex-row gap-3">
@@ -350,13 +350,13 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                       value={duration}
                       onChange={(e) => setDuration(e.target.value)}
                       min="1"
-                      className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                      className="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                     />
                     <select
                       id="duration-unit"
                       value={durationUnit}
                       onChange={(e) => setDurationUnit(e.target.value as 'seconds' | 'minutes' | 'hours')}
-                      className="px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white text-gray-900"
+                      className="px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     >
                       <option value="hours">Hours</option>
                       <option value="minutes">Minutes</option>
@@ -365,7 +365,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                   </div>
                 </div>
                 {duration && (
-                  <p className="text-xs text-gray-500 bg-gray-50 rounded-xl px-4 py-2">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-xl px-4 py-2">
                     Voting will run for {duration} {durationUnit} (
                     {durationUnit === 'hours'
                       ? parseInt(duration, 10) * 3600
@@ -385,11 +385,11 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             </div>
 
             {/* End Voting */}
-            <div className="pt-2 border-t border-gray-100">
-              <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
+            <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
+              <div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-2xl p-5 shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900">End Voting</h3>
-                  <span className="text-xs text-gray-400">Manual override</span>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">End Voting</h3>
+                  <span className="text-xs text-gray-400 dark:text-gray-500">Manual override</span>
                 </div>
                 <button
                   onClick={handleEndVoting}

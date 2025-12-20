@@ -15,7 +15,7 @@ export default function Skeleton({
   height,
   animation = 'pulse',
 }: SkeletonProps) {
-  const baseClasses = 'bg-gray-200 rounded';
+  const baseClasses = 'bg-gray-200 dark:bg-gray-700 rounded';
   
   const variantClasses = {
     text: 'h-4 rounded',
@@ -45,7 +45,7 @@ export default function Skeleton({
 
 export function SkeletonCard() {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/50 p-6 border border-gray-200 dark:border-gray-700">
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <Skeleton variant="text" width="40%" height={24} className="mb-3" />
@@ -95,4 +95,12 @@ export function SkeletonTable({ rows = 5, cols = 4 }: { rows?: number; cols?: nu
     </div>
   );
 }
+
+
+
+
+
+
+
+
 

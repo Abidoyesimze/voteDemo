@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
       
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -21,7 +21,7 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 z-10">
         <div className="text-center animate-fade-in-up">
           {/* Badge */}
-          <div className="inline-flex items-center px-5 py-2.5 mb-8 bg-white/80 backdrop-blur-sm rounded-full text-blue-700 text-sm font-semibold shadow-lg border border-blue-100">
+          <div className="inline-flex items-center px-5 py-2.5 mb-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full text-blue-700 dark:text-blue-400 text-sm font-semibold shadow-lg border border-blue-100 dark:border-blue-800">
             <span className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></span>
             Built on Base Sepolia • Fully Decentralized
           </div>
@@ -33,13 +33,13 @@ export default function Hero() {
                 Decentralized
               </span>
             </span>
-            <span className="block text-gray-900">
+            <span className="block text-gray-900 dark:text-white">
               Voting Made Simple
             </span>
           </h1>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
             QuickVote is a transparent, secure, and immutable voting platform built on the blockchain.
             <span className="block mt-2">Create elections, register contenders, and vote with complete trust in the process.</span>
           </p>
@@ -60,7 +60,7 @@ export default function Hero() {
             </Link>
             <Link
               href="#how-it-works"
-              className="px-8 py-4 bg-white text-gray-700 rounded-xl font-semibold text-lg border-2 border-gray-200 hover:border-blue-300 hover:shadow-xl transform hover:scale-105 transition-all duration-300 hover:bg-gray-50"
+              className="px-8 py-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-xl font-semibold text-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               Learn More
             </Link>
@@ -68,20 +68,20 @@ export default function Hero() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100 hover:border-blue-200 hover:shadow-xl transition-all duration-300 card-hover">
+            <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-600 hover:shadow-xl transition-all duration-300 card-hover">
               <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">100%</div>
-              <div className="text-gray-600 font-medium">Transparent</div>
-              <div className="text-sm text-gray-500 mt-1">All votes on-chain</div>
+              <div className="text-gray-600 dark:text-gray-300 font-medium">Transparent</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">All votes on-chain</div>
             </div>
-            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100 hover:border-purple-200 hover:shadow-xl transition-all duration-300 card-hover">
+            <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-600 hover:shadow-xl transition-all duration-300 card-hover">
               <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">Secure</div>
-              <div className="text-gray-600 font-medium">Blockchain Powered</div>
-              <div className="text-sm text-gray-500 mt-1">Immutable records</div>
+              <div className="text-gray-600 dark:text-gray-300 font-medium">Blockchain Powered</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">Immutable records</div>
             </div>
-            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100 hover:border-pink-200 hover:shadow-xl transition-all duration-300 card-hover">
+            <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700 hover:border-pink-200 dark:hover:border-pink-600 hover:shadow-xl transition-all duration-300 card-hover">
               <div className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent mb-2">Instant</div>
-              <div className="text-gray-600 font-medium">Real-time Results</div>
-              <div className="text-sm text-gray-500 mt-1">Live updates</div>
+              <div className="text-gray-600 dark:text-gray-300 font-medium">Real-time Results</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">Live updates</div>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </div>
