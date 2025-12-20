@@ -7,6 +7,7 @@ import AdminPanel from '@/components/AdminPanel';
 import VotingStatus from '@/components/VotingStatus';
 import ContenderCard from '@/components/ContenderCard';
 import WinnerDisplay from '@/components/WinnerDisplay';
+import VoteConfirmationModal from '@/components/VoteConfirmationModal';
 import { useVotingContract } from '@/hooks/useVotingContract';
 import type { ContDetails } from '@/lib/contract';
 
@@ -40,6 +41,8 @@ export default function VotePage() {
   const [winner, setWinner] = useState<{ address: string; code: string; voteCount: number } | undefined>();
   const [isOwnerValue, setIsOwnerValue] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [selectedContender, setSelectedContender] = useState<{ code: string; address: string } | null>(null);
 
   // Load voting status
   useEffect(() => {
@@ -129,13 +132,21 @@ export default function VotePage() {
     loadWinner();
   }, [votingActive, isConnected, getWinner, contenders.length, totalVotes]);
 
-  const handleVote = async (code: string) => {
+  const handleVoteClick = (code: string, address: string) => {
     if (!isConnected || hasVoted) return;
+    setSelectedContender({ code, address });
+    setConfirmModalOpen(true);
+  };
+
+  const handleConfirmVote = async () => {
+    if (!selectedContender || !isConnected || hasVoted) return;
 
     try {
-      const tx = await vote(code);
+      const tx = await vote(selectedContender.code);
       if (tx) {
         setHasVoted(true);
+        setConfirmModalOpen(false);
+        setSelectedContender(null);
         // Reload contender data
         const status = await getVotingStatus();
         if (status) {
@@ -146,6 +157,7 @@ export default function VotePage() {
       }
     } catch (err) {
       console.error('Vote error:', err);
+      setConfirmModalOpen(false);
     }
   };
 
@@ -421,7 +433,12 @@ export default function VotePage() {
                     voteCount={contender.voteCount}
                     totalVotes={totalVotes}
                     hasVoted={hasVoted}
-                    onVote={handleVote}
+                    onVote={(code) => {
+                      const contender = contenders.find(c => c.code === code);
+                      if (contender) {
+                        handleVoteClick(code, contender.address);
+                      }
+                    }}
                     isVotingActive={votingActive}
                   />
                 ))}
@@ -442,6 +459,21 @@ export default function VotePage() {
           </div>
         </main>
       </div>
+
+      {/* Vote Confirmation Modal */}
+      {selectedContender && (
+        <VoteConfirmationModal
+          isOpen={confirmModalOpen}
+          onClose={() => {
+            setConfirmModalOpen(false);
+            setSelectedContender(null);
+          }}
+          onConfirm={handleConfirmVote}
+          contenderCode={selectedContender.code}
+          contenderAddress={selectedContender.address}
+          isLoading={loading}
+        />
+      )}
     </div>
   );
 }
