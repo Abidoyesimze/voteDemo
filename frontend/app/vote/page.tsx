@@ -8,7 +8,9 @@ import VotingStatus from '@/components/VotingStatus';
 import ContenderCard from '@/components/ContenderCard';
 import WinnerDisplay from '@/components/WinnerDisplay';
 import VoteConfirmationModal from '@/components/VoteConfirmationModal';
+import ContenderFilters, { type SortOption, type FilterOption } from '@/components/ContenderFilters';
 import { useVotingContract } from '@/hooks/useVotingContract';
+import { sortContenders, filterContenders } from '@/lib/sorting';
 import type { ContDetails } from '@/lib/contract';
 
 interface Contender {
@@ -43,6 +45,8 @@ export default function VotePage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [selectedContender, setSelectedContender] = useState<{ code: string; address: string } | null>(null);
+  const [sortOption, setSortOption] = useState<SortOption>('votes-desc');
+  const [filterOption, setFilterOption] = useState<FilterOption>('all');
 
   // Load voting status
   useEffect(() => {
@@ -398,9 +402,19 @@ export default function VotePage() {
 
           {/* Contenders Section */}
           <div>
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Contenders</h2>
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Contenders</h2>
             </div>
+
+            {contenders.length > 0 && (
+              <ContenderFilters
+                onSortChange={setSortOption}
+                onFilterChange={setFilterOption}
+                currentSort={sortOption}
+                currentFilter={filterOption}
+                totalVotes={totalVotes}
+              />
+            )}
 
             {contenders.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-xl border-2 border-dashed border-gray-300">
@@ -425,7 +439,7 @@ export default function VotePage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {contenders.map((contender) => (
+                {filterContenders(sortContenders(contenders, sortOption), filterOption, totalVotes).map((contender) => (
                   <ContenderCard
                     key={contender.code}
                     code={contender.code}
