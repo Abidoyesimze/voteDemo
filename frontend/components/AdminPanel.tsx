@@ -193,14 +193,14 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
         {showPanel && (
           <div className="space-y-8">
             {/* Registration Mode Toggle */}
-            <div className="bg-white/80 border border-purple-100 rounded-2xl p-3 shadow-inner">
+            <div className="bg-white/80 dark:bg-gray-700/80 border border-purple-100 dark:border-purple-800 rounded-2xl p-3 shadow-inner">
               <div className="flex gap-3">
                 <button
                   onClick={() => setBatchMode(true)}
                   className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
                     batchMode
                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
-                      : 'bg-gray-50 border border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-200'
+                      : 'bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-200 dark:hover:border-purple-700'
                   }`}
                 >
                   <span>👥</span>
@@ -211,7 +211,7 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                   className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
                     !batchMode
                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg'
-                      : 'bg-gray-50 border border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-200'
+                      : 'bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-200 dark:hover:border-purple-700'
                   }`}
                 >
                   <span>👤</span>
@@ -223,21 +223,21 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
             {/* Batch Registration Form */}
             {batchMode && (
               <div className="space-y-5">
-                <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-5 shadow-inner">
-                  <h3 className="text-lg font-semibold text-slate-900">Register 3 Contenders</h3>
-                  <p className="text-sm text-slate-500 mt-1">
+                <div className="bg-slate-50/70 dark:bg-gray-700/70 border border-slate-100 dark:border-gray-600 rounded-2xl p-5 shadow-inner">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Register 3 Contenders</h3>
+                  <p className="text-sm text-slate-500 dark:text-gray-400 mt-1">
                     Assign unique addresses and voting codes. Each code is permanent once registered.
                   </p>
                 </div>
                 {[0, 1, 2].map((index) => (
-                  <div key={index} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm space-y-3">
+                  <div key={index} className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-2xl p-4 shadow-sm space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold text-gray-600">Contender {index + 1}</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 border border-purple-100">Required</span>
+                      <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">Contender {index + 1}</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 border border-purple-100 dark:border-purple-800">Required</span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor={`batch-address-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        <label htmlFor={`batch-address-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                           Wallet Address
                         </label>
                         <input
@@ -250,11 +250,11 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                             newAddrs[index] = e.target.value;
                             setBatchAddresses(newAddrs);
                           }}
-                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                         />
                       </div>
                       <div>
-                        <label htmlFor={`batch-code-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        <label htmlFor={`batch-code-${index}`} className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                           Voting Code
                         </label>
                         <input
@@ -267,9 +267,9 @@ export default function AdminPanel({ isOwner = false }: AdminPanelProps) {
                             newCodes[index] = e.target.value;
                             setBatchCodes(newCodes);
                           }}
-                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
+                          className="mt-2 w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                         />
-                        <p className="text-xs text-gray-400 mt-1">Voters will enter this code</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Voters will enter this code</p>
                       </div>
                     </div>
                   </div>
