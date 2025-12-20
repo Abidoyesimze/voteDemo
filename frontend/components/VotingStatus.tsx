@@ -44,12 +44,12 @@ export default function VotingStatus({
   }, [isActive, endTime]);
 
   return (
-    <div className="relative bg-white rounded-2xl shadow-lg p-6 border border-gray-200 overflow-hidden">
+    <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/50 p-6 border border-gray-200 dark:border-gray-700 overflow-hidden">
       {/* Gradient Background */}
       <div className={`absolute inset-0 bg-gradient-to-br transition-opacity duration-300 ${
         isActive 
-          ? 'from-green-50 via-blue-50 to-purple-50 opacity-100' 
-          : 'from-gray-50 to-gray-100 opacity-100'
+          ? 'from-green-50 via-blue-50 to-purple-50 dark:from-green-900/20 dark:via-blue-900/20 dark:to-purple-900/20 opacity-100' 
+          : 'from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 opacity-100'
       }`} />
       
       <div className="relative">
@@ -64,20 +64,20 @@ export default function VotingStatus({
             </svg>
           </div>
           <div>
-            <h3 className="text-lg font-bold text-gray-900">Voting Status</h3>
-            <p className="text-xs text-gray-500">Current election state</p>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Voting Status</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Current election state</p>
           </div>
         </div>
         
         <div className="space-y-4">
-          <div className="flex items-center justify-between p-3 bg-white/60 backdrop-blur-sm rounded-lg border border-gray-200">
-            <span className="text-sm font-medium text-gray-600">Status</span>
+          <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-lg border border-gray-200 dark:border-gray-600">
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Status</span>
             <div className="flex items-center gap-2">
               <span className={`w-2 h-2 rounded-full ${
-                isActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'
+                isActive ? 'bg-green-500 dark:bg-green-400 animate-pulse' : 'bg-gray-400 dark:bg-gray-500'
               }`}></span>
               <span className={`text-sm font-bold ${
-                isActive ? 'text-green-700' : 'text-gray-700'
+                isActive ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'
               }`}>
                 {isActive ? 'Active' : 'Inactive'}
               </span>
@@ -85,10 +85,10 @@ export default function VotingStatus({
           </div>
           
           {isActive && endTime && timeRemaining && (
-            <div className="p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
+            <div className="p-3 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-lg border border-blue-200 dark:border-blue-800">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Time Remaining</span>
-                <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-mono">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Time Remaining</span>
+                <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent font-mono">
                   {timeRemaining}
                 </span>
               </div>
