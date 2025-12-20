@@ -50,7 +50,7 @@ export default function WalletButton() {
       {isConnected && (
         <button
           onClick={() => open({ view: 'Account' })}
-          className="p-2.5 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all duration-200 border border-gray-200 hover:border-gray-300"
+          className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
           title="Account Settings"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
