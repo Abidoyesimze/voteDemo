@@ -31,15 +31,15 @@ export default function CopyButton({
   return (
     <button
       onClick={handleCopy}
-      className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors ${className}`}
       aria-label={`Copy ${text} to clipboard`}
     >
       {copied ? (
         <>
-          <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
-          {showLabel && <span className="text-green-600">Copied!</span>}
+          {showLabel && <span className="text-green-600 dark:text-green-400">Copied!</span>}
         </>
       ) : (
         <>
