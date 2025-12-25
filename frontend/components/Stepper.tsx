@@ -14,29 +14,31 @@ interface StepperProps {
 
 export default function Stepper({ steps, currentStep, className = '' }: StepperProps) {
   return (
-    <div className={className}>
-      <div className="flex items-center justify-between">
+    <nav className={className} aria-label="Progress">
+      <ol className="flex items-center justify-between" role="list">
         {steps.map((step, index) => {
           const isActive = index === currentStep;
           const isCompleted = index < currentStep;
           const isLast = index === steps.length - 1;
 
           return (
-            <div key={step.id} className="flex items-center flex-1">
+            <li key={step.id} className="flex items-center flex-1" role="listitem">
               <div className="flex flex-col items-center flex-1">
                 <div className="flex items-center w-full">
                   <div className="flex flex-col items-center">
                     <div
                       className={`
-                        w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm border-2 transition-colors
+                        w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm border-2 transition-all duration-300
                         ${
                           isCompleted
-                            ? 'bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500 text-white'
+                            ? 'bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500 text-white shadow-lg scale-110'
                             : isActive
-                            ? 'bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500 text-white'
+                            ? 'bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500 text-white shadow-lg scale-110 animate-pulse'
                             : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400'
                         }
                       `}
+                      aria-current={isActive ? 'step' : undefined}
+                      aria-label={isCompleted ? `Step ${index + 1}: ${step.label} (completed)` : isActive ? `Step ${index + 1}: ${step.label} (current)` : `Step ${index + 1}: ${step.label}`}
                     >
                       {isCompleted ? (
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,11 +76,13 @@ export default function Stepper({ steps, currentStep, className = '' }: StepperP
                   )}
                 </div>
               </div>
-            </div>
+            </li>
           );
         })}
-      </div>
-    </div>
+      </ol>
+    </nav>
   );
 }
+
+
 

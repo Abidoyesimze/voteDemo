@@ -25,7 +25,7 @@ export default function Slider({
     <div className={className}>
       {label && (
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          {label}: {value}
+          {label}: <span className="font-bold text-blue-600 dark:text-blue-400">{value}</span>
         </label>
       )}
       <div className="relative">
@@ -36,13 +36,19 @@ export default function Slider({
           step={step}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider focus-ring"
           style={{
             background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${percentage}%, #e5e7eb ${percentage}%, #e5e7eb 100%)`,
           }}
+          aria-label={label || 'Slider'}
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuenow={value}
         />
       </div>
     </div>
   );
 }
+
+
 

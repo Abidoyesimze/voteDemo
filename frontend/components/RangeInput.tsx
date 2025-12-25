@@ -42,9 +42,10 @@ export default function RangeInput({
           step={step}
           value={value[0]}
           onChange={(e) => handleMinChange(Number(e.target.value))}
-          className="w-24 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          className="w-24 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus-ring transition-colors hover:border-blue-400 dark:hover:border-blue-500"
+          aria-label={`Minimum ${label || 'value'}`}
         />
-        <span className="text-gray-500 dark:text-gray-400">to</span>
+        <span className="text-gray-500 dark:text-gray-400" aria-hidden="true">to</span>
         <input
           type="number"
           min={min}
@@ -52,10 +53,13 @@ export default function RangeInput({
           step={step}
           value={value[1]}
           onChange={(e) => handleMaxChange(Number(e.target.value))}
-          className="w-24 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          className="w-24 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus-ring transition-colors hover:border-blue-400 dark:hover:border-blue-500"
+          aria-label={`Maximum ${label || 'value'}`}
         />
       </div>
     </div>
   );
 }
+
+
 
