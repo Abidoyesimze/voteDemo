@@ -60,3 +60,36 @@ export function generateColorFromString(str: string): string {
   return `hsl(${hue}, 70%, 50%)`;
 }
 
+export function rgba(hex: string, alpha: number): string {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return hex;
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
+}
+
+export function blendColors(color1: string, color2: string, ratio: number): string {
+  const rgb1 = hexToRgb(color1);
+  const rgb2 = hexToRgb(color2);
+  
+  if (!rgb1 || !rgb2) return color1;
+  
+  const r = Math.round(rgb1.r + (rgb2.r - rgb1.r) * ratio);
+  const g = Math.round(rgb1.g + (rgb2.g - rgb1.g) * ratio);
+  const b = Math.round(rgb1.b + (rgb2.b - rgb1.b) * ratio);
+  
+  return rgbToHex(r, g, b);
+}
+
+export function getColorBrightness(hex: string): number {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return 0;
+  
+  // Calculate relative luminance (0-1)
+  return (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+}
+
+export function isColorDark(hex: string): boolean {
+  return getColorBrightness(hex) < 0.5;
+}
+
+
+
