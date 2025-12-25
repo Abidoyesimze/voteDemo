@@ -39,20 +39,19 @@ export default function AnimatedLoader({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4" role="status" aria-live="polite">
       <div
         className={`
           ${sizeClasses[size]}
           ${colorClasses[color]}
           border-4 border-t-transparent rounded-full animate-spin
         `}
-        role="status"
         aria-label="Loading"
       >
         <span className="sr-only">Loading...</span>
       </div>
       {text && (
-        <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+        <p className="text-sm text-gray-600 dark:text-gray-400 font-medium animate-pulse">
           {text}{dots}
         </p>
       )}
@@ -85,4 +84,6 @@ export function DotsLoader() {
     </div>
   );
 }
+
+
 

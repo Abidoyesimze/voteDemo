@@ -1,53 +1,26 @@
 /**
- * Performance utilities
+ * Performance utility functions
  */
 
-/**
- * Measure function execution time
- */
-export function measurePerformance<T>(
-  fn: () => T,
-  label?: string
-): { result: T; duration: number } {
-  const start = performance.now();
-  const result = fn();
-  const duration = performance.now() - start;
-
-  if (label && process.env.NODE_ENV === 'development') {
-    console.log(`[Performance] ${label}: ${duration.toFixed(2)}ms`);
-  }
-
-  return { result, duration };
-}
-
-/**
- * Debounce function with performance tracking
- */
-export function debounceWithPerformance<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: any[]) => any>(
   func: T,
-  wait: number,
-  label?: string
+  wait: number
 ): (...args: Parameters<T>) => void {
   let timeout: NodeJS.Timeout | null = null;
 
   return function executedFunction(...args: Parameters<T>) {
     const later = () => {
       timeout = null;
-      if (label) {
-        measurePerformance(() => func(...args), label);
-      } else {
-        func(...args);
-      }
+      func(...args);
     };
 
-    if (timeout) clearTimeout(timeout);
+    if (timeout) {
+      clearTimeout(timeout);
+    }
     timeout = setTimeout(later, wait);
   };
 }
 
-/**
- * Throttle function
- */
 export function throttle<T extends (...args: any[]) => any>(
   func: T,
   limit: number
@@ -63,10 +36,54 @@ export function throttle<T extends (...args: any[]) => any>(
   };
 }
 
-/**
- * Lazy load image
- */
-export function lazyLoadImage(src: string): Promise<void> {
+export function requestAnimationFrameThrottle<T extends (...args: any[]) => any>(
+  func: T
+): (...args: Parameters<T>) => void {
+  let rafId: number | null = null;
+
+  return function executedFunction(...args: Parameters<T>) {
+    if (rafId === null) {
+      rafId = requestAnimationFrame(() => {
+        func(...args);
+        rafId = null;
+      });
+    }
+  };
+}
+
+export function measurePerformance(name: string, fn: () => void) {
+  if (typeof window !== 'undefined' && 'performance' in window) {
+    const start = performance.now();
+    fn();
+    const end = performance.now();
+    console.log(`[Performance] ${name}: ${(end - start).toFixed(2)}ms`);
+  } else {
+    fn();
+  }
+}
+
+export function createPerformanceMarker(name: string): () => void {
+  if (typeof window !== 'undefined' && 'performance' in window && 'mark' in performance) {
+    performance.mark(`${name}-start`);
+    return () => {
+      performance.mark(`${name}-end`);
+      try {
+        performance.measure(name, `${name}-start`, `${name}-end`);
+      } catch (e) {
+        // Measure might already exist
+      }
+    };
+  }
+  return () => {};
+}
+
+export function lazyLoad<T>(
+  importFn: () => Promise<{ default: T }>
+): Promise<T> {
+  return importFn().then((module) => module.default);
+}
+
+export function preloadImage(src: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve();
@@ -75,11 +92,26 @@ export function lazyLoadImage(src: string): Promise<void> {
   });
 }
 
+export function batchUpdates<T>(
+  updates: (() => T)[],
+  batchSize: number = 10
+): Promise<T[]> {
+  return new Promise((resolve) => {
+    const results: T[] = [];
+    let index = 0;
 
+    const processBatch = () => {
+      const batch = updates.slice(index, index + batchSize);
+      batch.forEach((update) => results.push(update()));
+      index += batchSize;
 
+      if (index < updates.length) {
+        requestAnimationFrame(processBatch);
+      } else {
+        resolve(results);
+      }
+    };
 
-
-
-
-
-
+    processBatch();
+  });
+}

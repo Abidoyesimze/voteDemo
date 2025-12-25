@@ -14,12 +14,12 @@ export function useTheme() {
     const initialTheme = stored || 'system';
     setTheme(initialTheme);
     
-    const updateResolvedTheme = () => {
-      if (initialTheme === 'system') {
+    const updateResolvedTheme = (currentTheme: Theme = initialTheme) => {
+      if (currentTheme === 'system') {
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         setResolvedTheme(systemPrefersDark ? 'dark' : 'light');
       } else {
-        setResolvedTheme(initialTheme);
+        setResolvedTheme(currentTheme);
       }
     };
 
@@ -28,8 +28,9 @@ export function useTheme() {
     // Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {
-      if (theme === 'system') {
-        updateResolvedTheme();
+      const currentTheme = (localStorage.getItem('theme') as Theme) || 'system';
+      if (currentTheme === 'system') {
+        updateResolvedTheme('system');
       }
     };
 
@@ -38,12 +39,25 @@ export function useTheme() {
   }, []);
 
   useEffect(() => {
-    // Apply theme to document
+    // Apply theme to document with smooth transition
     const root = document.documentElement;
+    
+    // Prevent flash of unstyled content
+    root.style.transition = 'background-color 0.2s ease, color 0.2s ease';
+    
     if (resolvedTheme === 'dark') {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
+    }
+    
+    // Update meta theme-color for mobile browsers
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute(
+        'content',
+        resolvedTheme === 'dark' ? '#0a0a0a' : '#ffffff'
+      );
     }
   }, [resolvedTheme]);
 
@@ -65,4 +79,6 @@ export function useTheme() {
     setTheme: setThemeValue,
   };
 }
+
+
 

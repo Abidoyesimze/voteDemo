@@ -40,32 +40,36 @@ export default function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-1" aria-label="Main navigation">
             <Link
               href="/"
-              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 focus-ring"
+              aria-label="Go to home page"
             >
               Home
             </Link>
             <Link
               href="#features"
-              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 focus-ring"
+              aria-label="View features"
             >
               Features
             </Link>
             <Link
               href="#how-it-works"
-              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 focus-ring"
+              aria-label="Learn how it works"
             >
               How It Works
             </Link>
             <Link
               href="/vote"
-              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-200 focus-ring"
+              aria-label="Go to voting page"
             >
               Vote Now
             </Link>
-          </div>
+          </nav>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-3">
@@ -103,37 +107,49 @@ export default function Navigation() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden pb-4 border-t border-gray-200 dark:border-gray-800 mt-2 pt-4">
-            <div className="flex flex-col space-y-2">
+          <div 
+            className="md:hidden pb-4 border-t border-gray-200 dark:border-gray-800 mt-2 pt-4 animate-slide-in-down"
+            role="menu"
+            aria-label="Mobile navigation menu"
+          >
+            <nav className="flex flex-col space-y-2" aria-label="Mobile navigation">
               <Link
                 href="/"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 focus-ring"
                 onClick={() => setMobileMenuOpen(false)}
+                role="menuitem"
+                aria-label="Go to home page"
               >
                 Home
               </Link>
               <Link
                 href="#features"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 focus-ring"
                 onClick={() => setMobileMenuOpen(false)}
+                role="menuitem"
+                aria-label="View features"
               >
                 Features
               </Link>
               <Link
                 href="#how-it-works"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 focus-ring"
                 onClick={() => setMobileMenuOpen(false)}
+                role="menuitem"
+                aria-label="Learn how it works"
               >
                 How It Works
               </Link>
               <Link
                 href="/vote"
-                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg text-center"
+                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg text-center focus-ring"
                 onClick={() => setMobileMenuOpen(false)}
+                role="menuitem"
+                aria-label="Go to voting page"
               >
                 Vote Now
               </Link>
-            </div>
+            </nav>
           </div>
         )}
       </div>

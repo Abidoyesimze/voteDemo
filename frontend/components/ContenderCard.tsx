@@ -26,9 +26,20 @@ export default function ContenderCard({
   const percentage = totalVotes > 0 ? (voteCount / totalVotes) * 100 : 0;
 
   return (
-    <div className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/50 p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 card-hover overflow-hidden">
+    <div 
+      className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg dark:shadow-gray-900/50 p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 card-hover overflow-hidden focus-ring"
+      role="article"
+      aria-label={`Contender ${code} with ${voteCount} votes`}
+    >
       {/* Gradient Background on Hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-pink-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      {/* Rank Badge */}
+      {voteCount > 0 && (
+        <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg z-10">
+          #
+        </div>
+      )}
       
       <div className="relative">
         <div className="flex items-start justify-between mb-4">
@@ -74,8 +85,9 @@ export default function ContenderCard({
           <button
             onClick={() => onVote?.(code)}
             disabled={hasVoted}
+            aria-label={hasVoted ? `Already voted for ${code}` : `Vote for ${code}`}
             className={`
-              w-full py-3.5 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden
+              w-full py-3.5 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden focus-ring
               ${
                 hasVoted
                   ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed border border-gray-200 dark:border-gray-600'

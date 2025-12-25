@@ -8,7 +8,12 @@ export function truncate(str: string, length: number, suffix: string = '...'): s
 }
 
 export function capitalize(str: string): string {
+  if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export function capitalizeWords(str: string): string {
+  return str.replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 export function camelCase(str: string): string {
@@ -42,9 +47,8 @@ export function slugify(str: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-export function pluralize(count: number, singular: string, plural?: string): string {
-  if (count === 1) return singular;
-  return plural || `${singular}s`;
+export function removeAccents(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
 export function escapeHtml(str: string): string {
@@ -58,3 +62,23 @@ export function escapeHtml(str: string): string {
   return str.replace(/[&<>"']/g, (m) => map[m]);
 }
 
+export function unescapeHtml(str: string): string {
+  const map: Record<string, string> = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#039;': "'",
+  };
+  return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, (m) => map[m]);
+}
+
+export function pluralize(word: string, count: number, plural?: string): string {
+  if (count === 1) return word;
+  return plural || word + 's';
+}
+
+export function formatAddress(address: string, startLength: number = 6, endLength: number = 4): string {
+  if (address.length <= startLength + endLength) return address;
+  return `${address.slice(0, startLength)}...${address.slice(-endLength)}`;
+}

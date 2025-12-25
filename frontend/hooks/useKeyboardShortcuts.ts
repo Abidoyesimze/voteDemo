@@ -2,35 +2,33 @@
 
 import { useEffect } from 'react';
 
-export interface KeyboardShortcut {
+interface Shortcut {
   key: string;
-  ctrlKey?: boolean;
-  shiftKey?: boolean;
-  altKey?: boolean;
-  metaKey?: boolean;
+  ctrl?: boolean;
+  shift?: boolean;
+  alt?: boolean;
+  meta?: boolean;
   handler: () => void;
 }
 
-export function useKeyboardShortcuts(shortcuts: KeyboardShortcut[]) {
+export function useKeyboardShortcuts(shortcuts: Shortcut[]) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      for (const shortcut of shortcuts) {
+      shortcuts.forEach((shortcut) => {
         const keyMatches = event.key.toLowerCase() === shortcut.key.toLowerCase();
-        const ctrlMatches = shortcut.ctrlKey ? event.ctrlKey : !event.ctrlKey;
-        const shiftMatches = shortcut.shiftKey ? event.shiftKey : !event.shiftKey;
-        const altMatches = shortcut.altKey ? event.altKey : !event.altKey;
-        const metaMatches = shortcut.metaKey ? event.metaKey : !event.metaKey;
+        const ctrlMatches = shortcut.ctrl ? event.ctrlKey : !event.ctrlKey;
+        const shiftMatches = shortcut.shift ? event.shiftKey : !event.shiftKey;
+        const altMatches = shortcut.alt ? event.altKey : !event.altKey;
+        const metaMatches = shortcut.meta ? event.metaKey : !event.metaKey;
 
         if (keyMatches && ctrlMatches && shiftMatches && altMatches && metaMatches) {
           event.preventDefault();
           shortcut.handler();
-          break;
         }
-      }
+      });
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [shortcuts]);
 }
-

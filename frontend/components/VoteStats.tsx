@@ -18,12 +18,12 @@ export default function VoteStats({
   const { displayValue: animatedVotes } = useAnimatedNumber(totalVotes, 1000);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" role="region" aria-label="Voting statistics">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow duration-200 card-hover">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Votes</p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">
+            <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1 tabular-nums" aria-label={`${totalVotes} total votes`}>
               {animatedVotes}
             </p>
           </div>
@@ -35,11 +35,11 @@ export default function VoteStats({
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow duration-200 card-hover">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Contenders</p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">
+            <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1 tabular-nums" aria-label={`${contenderCount} contenders`}>
               {contenderCount}
             </p>
           </div>
@@ -51,7 +51,7 @@ export default function VoteStats({
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow duration-200 card-hover">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Status</p>
@@ -59,7 +59,7 @@ export default function VoteStats({
               votingActive 
                 ? 'text-green-600 dark:text-green-400' 
                 : 'text-gray-500 dark:text-gray-400'
-            }`}>
+            }`} aria-label={`Voting is ${votingActive ? 'active' : 'inactive'}`}>
               {votingActive ? 'Active' : 'Inactive'}
             </p>
             {hasVoted && (
@@ -84,4 +84,6 @@ export default function VoteStats({
     </div>
   );
 }
+
+
 

@@ -20,11 +20,18 @@ export default function LoadingOverlay({
     : 'absolute inset-0 z-40';
 
   return (
-    <div className={`${containerClasses} bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm flex items-center justify-center`}>
+    <div 
+      className={`${containerClasses} bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm flex items-center justify-center animate-fade-in-up`}
+      role="status"
+      aria-live="polite"
+      aria-label={message}
+    >
       <div className="text-center">
         <AnimatedLoader size="lg" color="primary" text={message} />
       </div>
     </div>
   );
 }
+
+
 

@@ -1,68 +1,124 @@
 /**
- * Animation utility functions and constants
+ * Animation utility functions
  */
 
-export const ANIMATION_DURATION = {
-  fast: 150,
-  normal: 300,
-  slow: 500,
-  slower: 1000,
-} as const;
-
-export const ANIMATION_EASING = {
-  ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
-  easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
-  easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
-  easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
-  spring: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-} as const;
-
-/**
- * Stagger animation delay calculator
- */
-export function getStaggerDelay(index: number, baseDelay: number = 50): number {
-  return index * baseDelay;
+export interface AnimationOptions {
+  duration?: number;
+  easing?: string;
+  delay?: number;
+  fillMode?: 'none' | 'forwards' | 'backwards' | 'both';
 }
 
-/**
- * Fade in animation style
- */
-export function fadeIn(delay: number = 0, duration: number = ANIMATION_DURATION.normal) {
-  return {
-    animation: `fadeIn ${duration}ms ease-out ${delay}ms both`,
+export function createKeyframeAnimation(
+  name: string,
+  keyframes: Record<string, Record<string, string | number>>,
+  options: AnimationOptions = {}
+): string {
+  const { duration = 1000, easing = 'ease', delay = 0, fillMode = 'forwards' } = options;
+  
+  // This would typically be used with CSS-in-JS or injected styles
+  // For now, return a CSS string representation
+  const keyframeString = Object.entries(keyframes)
+    .map(([percentage, properties]) => {
+      const props = Object.entries(properties)
+        .map(([prop, value]) => `    ${prop}: ${value};`)
+        .join('\n');
+      return `  ${percentage} {\n${props}\n  }`;
+    })
+    .join('\n');
+
+  return `@keyframes ${name} {\n${keyframeString}\n}`;
+}
+
+export function easeInOut(t: number): number {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+}
+
+export function easeIn(t: number): number {
+  return t * t;
+}
+
+export function easeOut(t: number): number {
+  return t * (2 - t);
+}
+
+export function linear(t: number): number {
+  return t;
+}
+
+export function animateValue(
+  start: number,
+  end: number,
+  duration: number,
+  callback: (value: number) => void,
+  easing: (t: number) => number = easeInOut
+): void {
+  const startTime = performance.now();
+  
+  function animate(currentTime: number) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easing(progress);
+    const value = start + (end - start) * eased;
+    
+    callback(value);
+    
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+  
+  requestAnimationFrame(animate);
+}
+
+export function staggerAnimation(
+  items: number,
+  staggerDelay: number = 50
+): number[] {
+  return Array.from({ length: items }, (_, i) => i * staggerDelay);
+}
+
+export function createSpringAnimation(
+  target: number,
+  current: number = 0,
+  velocity: number = 0,
+  stiffness: number = 100,
+  damping: number = 10,
+  onUpdate: (value: number) => void
+): () => void {
+  let position = current;
+  let currentVelocity = velocity;
+  let animationId: number | null = null;
+  let isRunning = true;
+
+  function animate() {
+    if (!isRunning) return;
+
+    const springForce = (target - position) * stiffness;
+    const dampingForce = -currentVelocity * damping;
+    const acceleration = springForce + dampingForce;
+
+    currentVelocity += acceleration * 0.016; // ~60fps
+    position += currentVelocity * 0.016;
+
+    onUpdate(position);
+
+    if (Math.abs(target - position) < 0.01 && Math.abs(currentVelocity) < 0.01) {
+      position = target;
+      onUpdate(position);
+      isRunning = false;
+      return;
+    }
+
+    animationId = requestAnimationFrame(animate);
+  }
+
+  animationId = requestAnimationFrame(animate);
+
+  return () => {
+    isRunning = false;
+    if (animationId !== null) {
+      cancelAnimationFrame(animationId);
+    }
   };
 }
-
-/**
- * Slide up animation style
- */
-export function slideUp(delay: number = 0, duration: number = ANIMATION_DURATION.normal) {
-  return {
-    animation: `slideUp ${duration}ms ease-out ${delay}ms both`,
-  };
-}
-
-/**
- * Scale animation style
- */
-export function scale(delay: number = 0, duration: number = ANIMATION_DURATION.fast) {
-  return {
-    animation: `scale ${duration}ms ease-out ${delay}ms both`,
-  };
-}
-
-/**
- * Check if user prefers reduced motion
- */
-export function prefersReducedMotion(): boolean {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
-/**
- * Get animation duration respecting user preferences
- */
-export function getAnimationDuration(baseDuration: number): number {
-  return prefersReducedMotion() ? 0 : baseDuration;
-}
-
