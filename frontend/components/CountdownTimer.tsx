@@ -61,16 +61,20 @@ export default function CountdownTimer({ endTime, onComplete }: CountdownTimerPr
   ].filter(unit => unit.value > 0 || unit.label === 'Seconds');
 
   return (
-    <div className="flex items-center justify-center gap-4 flex-wrap">
+    <div className="flex items-center justify-center gap-4 flex-wrap" role="timer" aria-live="polite" aria-atomic="true">
       {timeUnits.map((unit, index) => (
         <div
           key={unit.label}
-          className="flex flex-col items-center bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700 min-w-[70px]"
+          className="flex flex-col items-center bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700 min-w-[70px] shadow-sm hover:shadow-md transition-shadow duration-200 animate-scale-in"
+          style={{ animationDelay: `${index * 50}ms` }}
         >
-          <span className="text-2xl font-bold text-gray-900 dark:text-white">
+          <span 
+            className="text-2xl font-bold text-gray-900 dark:text-white tabular-nums"
+            aria-label={`${unit.value} ${unit.label}`}
+          >
             {String(unit.value).padStart(2, '0')}
           </span>
-          <span className="text-xs text-gray-500 dark:text-gray-400 uppercase">
+          <span className="text-xs text-gray-500 dark:text-gray-400 uppercase font-medium">
             {unit.label}
           </span>
         </div>
@@ -78,4 +82,6 @@ export default function CountdownTimer({ endTime, onComplete }: CountdownTimerPr
     </div>
   );
 }
+
+
 
