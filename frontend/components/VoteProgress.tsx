@@ -21,13 +21,13 @@ export default function VoteProgress({
   const color = colors[colorIndex];
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" role="progressbar" aria-valuenow={voteCount} aria-valuemin={0} aria-valuemax={totalVotes} aria-label={`${contenderCode}: ${voteCount} votes (${percentage.toFixed(1)}%)`}>
       {showDetails && (
         <div className="flex items-center justify-between text-sm">
           <span className="font-semibold text-gray-700 dark:text-gray-300">
             {contenderCode}
           </span>
-          <span className="font-bold text-gray-900 dark:text-white">
+          <span className="font-bold text-gray-900 dark:text-white tabular-nums">
             {voteCount} / {totalVotes}
           </span>
         </div>
@@ -50,4 +50,6 @@ export default function VoteProgress({
     </div>
   );
 }
+
+
 
