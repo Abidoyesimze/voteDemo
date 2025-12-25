@@ -42,12 +42,16 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+      className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus-ring group relative"
       title={`Theme: ${theme} (${resolvedTheme})`}
-      aria-label="Toggle theme"
+      aria-label={`Toggle theme. Current: ${theme} (${resolvedTheme})`}
+      aria-pressed={resolvedTheme === 'dark'}
     >
-      {getIcon()}
+      <span className="relative z-10">{getIcon()}</span>
+      <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
     </button>
   );
 }
+
+
 
